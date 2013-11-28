@@ -34,8 +34,6 @@ class Window(QtGui.QWidget):
     def initUI(self):
         '''
             Configures plot window.
-
-            TODO: resolution changing
         '''
         # Change resolution and center window
         self.resize(1024, 768)
@@ -115,6 +113,11 @@ class Window(QtGui.QWidget):
         for i in range(self.proc_num):
             pipes_length.append(0)
 
+        # create y_labels for processors
+        self.y_labels = []
+        for i in range(self.proc_num):
+            self.y_labels.append('processor no. ' + str(i + 1))
+
         # We go through every task tuple (task_id, proc_list). Proc list is
         # a binary vector. If task is being handled by n-th processor, n-th
         # value of proc_list is set to 1, otherwise to 0
@@ -171,22 +174,14 @@ class Window(QtGui.QWidget):
                                                     dspace_length))
                     pipes_length[index] += dspace_length
 
-                    self.facecolors[index].append('black')
+                    self.facecolors[index].append('grey')
                     self.edgecolors[index].append('black')
 
-            # create y_labels for processors
-            self.y_labels = []
-            for i in range(self.proc_num):
-                self.y_labels.append('processor no. ' + str(i + 1))
-
-
+        self.x_limit = max(pipes_length) + 5
 
     def plot(self):
         '''
             Initializes and draws graph of solution
-
-            TODO: automate xlim
-                - automate x axis limit
         '''
 
         graph = self.figure.add_subplot(111)
@@ -201,15 +196,15 @@ class Window(QtGui.QWidget):
             height += 5
 
         # set limits for axes
-        graph.set_ylim(0,height)
-        graph.set_xlim(0,20)
+        graph.set_ylim(0, height)
+        graph.set_xlim(0, self.x_limit)
 
         # set labels for axes
         graph.set_xlabel('time')
         graph.set_yticklabels(self.y_labels)
 
         # set ticks for axes
-        graph.set_xticks(range(0, 20, 5))
+        graph.set_xticks(range(0, self.x_limit, 5))
         graph.set_yticks(range(2, height, 5))
 
         graph.grid(True)
