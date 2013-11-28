@@ -98,10 +98,19 @@ class Window(QtGui.QWidget):
         for i in range(self.proc_num):
             self.xaxis_val.append([])
 
+        self.task_ids = []
+        for i in range(self.proc_num):
+            self.task_ids.append([])
+
         # Background colors for tasks in every pipe
         self.facecolors = []
         for i in range(self.proc_num):
             self.facecolors.append([])
+
+        # Texts colors for tasks in every pipe
+        self.textcolors = []
+        for i in range(self.proc_num):
+            self.textcolors.append([])
 
         # Border colors for tasks in every pipe
         self.edgecolors = []
@@ -162,7 +171,9 @@ class Window(QtGui.QWidget):
                         max_plength = pipes_length[index]
 
                     self.facecolors[index].append(self.palette[task_id][0])
+                    self.textcolors[index].append(self.palette[task_id][1])
                     self.edgecolors[index].append('black')
+                    self.task_ids[index].append('Task no.' + str( task_id + 1 ))
 
             # add dead spaces for pipes that need to wait for synchro.
             for index in active_processors:
@@ -175,7 +186,9 @@ class Window(QtGui.QWidget):
                     pipes_length[index] += dspace_length
 
                     self.facecolors[index].append('grey')
+                    self.textcolors[index].append('black')
                     self.edgecolors[index].append('black')
+                    self.task_ids[index].append('')
 
         self.x_limit = max(pipes_length) + 5
 
@@ -189,10 +202,20 @@ class Window(QtGui.QWidget):
         height = 0
 
         # add pipes
-        for i in range(self.proc_num):
-            graph.broken_barh( self.xaxis_val[i], (height, 4),
-                        facecolors=tuple(self.facecolors[i]),
-                        edgecolors=tuple(self.edgecolors[i]) )
+        for proc_id in range(self.proc_num):
+            graph.broken_barh( self.xaxis_val[proc_id], (height, 4),
+                        facecolors=tuple(self.facecolors[proc_id]),
+                        edgecolors=tuple(self.edgecolors[proc_id]))
+
+            for index, val in enumerate(self.xaxis_val[proc_id]):
+                label_x = val[0]
+                label_y = height + 2
+                graph.annotate(self.task_ids[proc_id][index],
+                            xy=(label_x, label_y),
+                            textcoords='data',
+                            color=self.textcolors[proc_id][index],
+                            weight='bold',
+                            fontsize=14)
             height += 5
 
         # set limits for axes
