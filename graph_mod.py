@@ -7,7 +7,7 @@ from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 import matplotlib.pyplot as plt
 
 
-class Window(QtGui.QWidget):
+class SolGraph(QtGui.QWidget):
 
     def __init__(self):
         '''

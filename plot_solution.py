@@ -3,7 +3,7 @@ import graph_mod
 def main():
     app = graph_mod.QtGui.QApplication(graph_mod.sys.argv)
 
-    main_window = graph_mod.Window()
+    main_window = graph_mod.SolGraph()
     main_window.show()
 
     graph_mod.sys.exit(app.exec_())
