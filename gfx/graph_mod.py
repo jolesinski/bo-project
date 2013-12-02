@@ -69,8 +69,7 @@ class FitGraph(Graph):
         self.fitness_vals = fitness_data[0]
         self.fitness_med = fitness_data[1]
         self.popul_list = range(1, len(self.fitness_vals)  + 1 )
-        print(len(self.popul_list))
-        print(len(self.fitness_vals))
+
 
     def plot(self):
         graph = self.figure.add_subplot(2, 1, 1)
@@ -84,6 +83,8 @@ class FitGraph(Graph):
         graph.set_ylabel('median of fitness function\n values in each population')
 
         self.canvas.draw()
+
+
 
 class SolGraph(Graph):
 
