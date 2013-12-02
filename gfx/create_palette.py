@@ -1,7 +1,6 @@
 import PyColor
 import pickle
 import random
-import os
 
 def main():
     '''
