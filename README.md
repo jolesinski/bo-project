@@ -1,27 +1,33 @@
 ###############################################################################
 
-                            FILE EXPLANATION
+                              REQ
 
 ###############################################################################
 
-I. Main folder
+1. Python 3.3 (duh) x32
 
-    1. PyColor.py - definitions of functions necessary for formatting colors
-        in config/unordered_colors file. It's not a script file so don't run it
+2. matplotlib - on windows you need to install following dependecies: numpy, dateutil, pytz, pyparsing,
+    six. You can find them here: http://www.lfd.uci.edu/~gohlke/pythonlibs/
 
-	2. graph_mod.py - all necessary functions for plotting solution/data graphs
-	
-    3. create_palette.py - script file which creates json file containing list
-        of lists of colors
+3. PyQt4
 
-	4. plot_solution.py - creates bar plot of algorithm solution
 
-II. config folder
+###############################################################################
 
-    1. unformated_colors - contains list of unformated colors (duh)
-    2. palette.json - list of lists of cosors in json format for plot
+                            How to run
 
-Authors:
+###############################################################################
+
+Currently you can only run scripts responsible for plotting solution (gfx/plot_solution.py), fitness function
+and its median (gfx/plot_fitness.py). In your terminal type
+>python gfx/filename.py
+while in main folder
+
+###############################################################################
+
+                            Credits
+
+###############################################################################
   Zbigniew Kostka,
   Bartłomiej Lisiecki,
   Jakub Olesiński.
