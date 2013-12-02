@@ -5,30 +5,36 @@ from PyQt4 import QtGui
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 
 import matplotlib.pyplot as plt
-
-
-class SolGraph(QtGui.QWidget):
-
+class Graph(QtGui.QWidget):
     def __init__(self):
-        '''
-            Initializes all data and plats graph
-        '''
+
         super().__init__()
-
-        # Load colors for graph
-        self.load_palette()
-
-        # Load solution data
-        self.load_solution()
-
-        # Format solution data for graph
-        self.format_data()
 
         # Configure ui window
         self.initUI()
 
-        # Plot the solution
+        self.init_data()
+
         self.plot()
+
+
+    def init_data(self):
+        raise NotImplementedError("Implement me")
+
+
+    def plot(self):
+        raise NotImplementedError("Implement me")
+
+
+    def centerWindow(self):
+        '''
+            Based on rectangles from frameGeometry finds center of our
+            window and its opened children and moves it there
+        '''
+        qr = self.frameGeometry()
+        cp = QtGui.QDesktopWidget().availableGeometry().center()
+        qr.moveCenter(cp)
+        self.move(qr.topLeft())
 
 
     def initUI(self):
@@ -36,7 +42,7 @@ class SolGraph(QtGui.QWidget):
             Configures plot window.
         '''
         # Change resolution and center window
-        self.resize(1024, 768)
+        self.resize(1024, 600)
         self.centerWindow()
 
         # Figure instance for our plot
@@ -51,15 +57,49 @@ class SolGraph(QtGui.QWidget):
         self.setLayout(layout)
 
 
-    def centerWindow(self):
-        '''
-            Based on rectangles from frameGeometry finds center of our
-            window and its opened children and moves it there
-        '''
-        qr = self.frameGeometry()
-        cp = QtGui.QDesktopWidget().availableGeometry().center()
-        qr.moveCenter(cp)
-        self.move(qr.topLeft())
+
+class FitGraph(Graph):
+    def __init__(self):
+        super().__init__()
+
+
+    def init_data(self):
+        with open('../config/fitness_data.pickle', 'rb') as file:
+            fitness_data = pickle.load(file)
+        self.fitness_vals = fitness_data[0]
+        self.fitness_med = fitness_data[1]
+        self.popul_list = range(1, len(self.fitness_vals)  + 1 )
+        print(len(self.popul_list))
+        print(len(self.fitness_vals))
+
+    def plot(self):
+        graph = self.figure.add_subplot(2, 1, 1)
+        graph.plot( self.popul_list, self.fitness_vals, 'bo-')
+        graph.set_xlabel('population number')
+        graph.set_ylabel('fitness function value')
+
+        graph = self.figure.add_subplot(2, 1, 2)
+        graph.plot( self.popul_list, self.fitness_med, 'bo-')
+        graph.set_xlabel('population number')
+        graph.set_ylabel('median of fitness function\n values in each population')
+
+        self.canvas.draw()
+
+class SolGraph(Graph):
+
+    def __init__(self):
+        super().__init__()
+
+
+    def init_data(self):
+        # Load colors for graph
+        self.load_palette()
+
+        # Load solution data
+        self.load_solution()
+
+        # Format solution data for graph
+        self.format_data()
 
 
     def load_palette(self):
@@ -197,7 +237,7 @@ class SolGraph(QtGui.QWidget):
             Initializes and draws graph of solution
         '''
 
-        graph = self.figure.add_subplot(111)
+        graph = self.figure.add_subplot( 1, 1, 1 )
         # min height for current pipe display
         height = 0
 
