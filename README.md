@@ -18,10 +18,9 @@
 
 ###############################################################################
 
-Currently you can only run scripts responsible for plotting solution (gfx/plot_solution.py), fitness function
-and its median (gfx/plot_fitness.py). In your terminal type
->python gfx/filename.py
-while in main folder
+You can run data analysis app which now basically takes random data and makes
+plots. In your terminal enter:
+> python main_data.py
 
 ###############################################################################
 
