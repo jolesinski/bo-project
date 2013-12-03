@@ -4,7 +4,7 @@ import pickle
 class Schedule:
 	'''Represents serialization of all specified tasks'''
 	
-	def __init__(self, popSize)
+	def __init__(self, popSize):
 		load_data()
 		self.population = GeneratePopulation(self, popSize)
 		
@@ -52,12 +52,12 @@ class Schedule:
 
 		return taskStruct
 
-	def GeneratePopulation(self, popNum)
+	def GeneratePopulation(self, popNum):
 		'''Kom kom kom kommm...'''
-		Self.newPop = []
+		Self.population = []
 		for num in range(1,popNum+1):
-			Self.newPop.append(Generate())
-		return Self.newPop
+			self.population.append(Generate())
+		return self.population
 
 	def load_data(self):
 		'''
@@ -190,15 +190,14 @@ class Schedule:
 		allPopList =[]
 		with open(configFile.dataFName, mode='rb') as dFile:
 			allPopList = picle.load(dFile)
-		allPopList.append(self.newPop)
 		with open(configFile.dataFName, mode='wb') as dFile:
 			picle.dump(allPopList ,dFile)		
 
-	def GoalFunct(self, tasks, answer)
+	def GoalFunct(self, tasks, answer):
 		'''koooooomcia ni ma'''
 
 		procArr=[]
-		for taskI in range(0, self.task_num)):
+		for taskI in range(0, self.task_num):
 			procArr[taskI]=CountBinary(answer[taskI][1])
 
 		procAttrib=[]
@@ -206,7 +205,7 @@ class Schedule:
 			procAttrib[taskI]=tasks[answer[taskI][0]-1][procArr[taskI]-1]
 
 		executeTime=[]
-		for procI in range(0, self.proc_num)
+		for procI in range(0, self.proc_num):
 			executeTime[procI]=0
 
 		notZeroFlags = []
@@ -238,14 +237,14 @@ class Schedule:
 		
 
 
-	def GoalFunctPop(self, tasks)
+	def GoalFunctPop(self, tasks):
 		'''k'''
 		self.goalVal=[]
 		for index in range(0, len(self.population)):
-			self.goalVal[index]=GoalFunct(tasks, self.population[index]))
+			self.goalVal[index]=GoalFunct(tasks, self.population[index])
 		return self.goalVal
 
-	def CountBinary(self, binList)
+	def CountBinary(self, binList):
 		'''Counts ones in a list.'''
 		for index in range(0, len(binList)):
 			sumOf1 =sumOf1+binList[index]
