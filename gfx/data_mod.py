@@ -3,7 +3,7 @@ import graph_mod
 from PyQt4 import QtGui, QtCore
 
 
-class DataAnalysis(QtGui.QMainWindow):
+class DataAnalysis(QtGui.QWidget):
 
     def __init__(self):
         super().__init__()
@@ -20,7 +20,7 @@ class DataAnalysis(QtGui.QMainWindow):
 
         self.button.clicked.connect(self.generate_plots)
 
-        widget = QtGui.QWidget()
+        # widget = QtGui.QWidget()
 
         vboxlayout = QtGui.QVBoxLayout( )
 
@@ -28,12 +28,7 @@ class DataAnalysis(QtGui.QMainWindow):
         vboxlayout.addWidget(self.cb2)
         vboxlayout.addWidget(self.button)
 
-        widget.setLayout( vboxlayout )
-
-        qdock = QtGui.QDockWidget()
-        qdock.setWidget(widget)
-        self.addDockWidget( QtCore.Qt.TopDockWidgetArea, qdock)
-
+        self.setLayout( vboxlayout )
 
         self.setFixedSize(200, 200)
         self.setWindowTitle('Data analysis')
