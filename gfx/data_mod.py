@@ -3,6 +3,7 @@ import graph_mod
 from PyQt4 import QtGui, QtCore
 
 
+
 class DataAnalysis(QtGui.QWidget):
 
     def __init__(self):
@@ -19,8 +20,6 @@ class DataAnalysis(QtGui.QWidget):
         self.button = QtGui.QPushButton('Generate')
 
         self.button.clicked.connect(self.generate_plots)
-
-        # widget = QtGui.QWidget()
 
         vboxlayout = QtGui.QVBoxLayout( )
 
@@ -48,6 +47,7 @@ class DataAnalysis(QtGui.QWidget):
 
 
 def main():
+
 
     app = QtGui.QApplication(sys.argv)
     ex = DataAnalysis()

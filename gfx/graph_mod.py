@@ -5,6 +5,8 @@ from PyQt4 import QtGui
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 
 import matplotlib.pyplot as plt
+
+
 class Graph(QtGui.QWidget):
     def __init__(self):
 
@@ -62,8 +64,8 @@ class FitGraph(Graph):
     def __init__(self):
         super().__init__()
 
-
     def init_data(self):
+
         with open('../config/fitness_data.pickle', 'rb') as file:
             fitness_data = pickle.load(file)
         self.fitness_vals = fitness_data[0]
