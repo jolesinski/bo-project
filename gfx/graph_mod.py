@@ -1,4 +1,4 @@
-import sys
+import sys, os
 import pickle
 from PyQt4 import QtGui
 
@@ -58,6 +58,8 @@ class Graph(QtGui.QWidget):
         layout.addWidget(self.canvas)
         self.setLayout(layout)
 
+        self.path = os.path.dirname(__file__)
+
 
 
 class FitGraph(Graph):
@@ -65,8 +67,8 @@ class FitGraph(Graph):
         super().__init__()
 
     def init_data(self):
-
-        with open('../config/fitness_data.pickle', 'rb') as file:
+        path = os.path.join(os.path.dirname(self.path), 'config/fitness_data.pickle')
+        with open(path, 'rb') as file:
             fitness_data = pickle.load(file)
         self.fitness_vals = fitness_data[0]
         self.fitness_med = fitness_data[1]
@@ -109,7 +111,8 @@ class SolGraph(Graph):
         '''
             Loads previously created palette using pickle
         '''
-        with open('../config/palette_data.pickle', 'rb') as palette_data:
+        path = os.path.join(os.path.dirname(self.path), 'config/palette_data.pickle')
+        with open(path, 'rb') as palette_data:
             self.palette = pickle.load(palette_data)
 
 
@@ -117,16 +120,18 @@ class SolGraph(Graph):
         '''
             Loads all necessary solution data using pickle
         '''
-        with open('../config/solution_data.pickle', 'rb') as solution_data:
+        path = os.path.join(os.path.dirname(self.path), 'config/solution_data.pickle')
+        with open(path, 'rb') as solution_data:
             self.solution = pickle.load( solution_data )
-        # !!! Dunno if necessery
-        with open('../config/sched_data.pickle', 'rb') as sched_file:
+        path = os.path.join(os.path.dirname(self.path), 'config/sched_data.pickle')
+        with open(path, 'rb') as sched_file:
             conf_data = pickle.load( sched_file )
 
         self.proc_num = int(conf_data['proc_num'])
         self.task_num = int(conf_data['task_num'])
 
-        with open('../config/task_data.pickle', 'rb') as task_data:
+        path = os.path.join(os.path.dirname(self.path), 'config/task_data.pickle')
+        with open(path, 'rb') as task_data:
             self.task_data = pickle.load( task_data )
 
 

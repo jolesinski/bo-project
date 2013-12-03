@@ -1,5 +1,5 @@
 import sys
-import graph_mod
+from . import graph_mod
 from PyQt4 import QtGui, QtCore
 
 
