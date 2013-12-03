@@ -73,12 +73,12 @@ class FitGraph(Graph):
 
     def plot(self):
         graph = self.figure.add_subplot(2, 1, 1)
-        graph.plot( self.popul_list, self.fitness_vals, 'bo-')
+        graph.plot( self.popul_list, self.fitness_vals, '-')
         graph.set_xlabel('population number')
         graph.set_ylabel('fitness function value')
 
         graph = self.figure.add_subplot(2, 1, 2)
-        graph.plot( self.popul_list, self.fitness_med, 'bo-')
+        graph.plot( self.popul_list, self.fitness_med, '-')
         graph.set_xlabel('population number')
         graph.set_ylabel('median of fitness function\n values in each population')
 
