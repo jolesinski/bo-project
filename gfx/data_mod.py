@@ -33,11 +33,19 @@ class DataAnalysis(QtGui.QWidget):
         self.setFixedSize(200, 200)
         self.setWindowTitle('Data analysis')
 
+        self.fitGraphDialog = graph_mod.FitGraph()
+        self.solGraphDialog = graph_mod.SolGraph()
+
         self.show()
     def generate_plots(self):
         if self.cb1.checkState() == QtCore.Qt.Checked:
-            fit_window = graph_mod.FitGraph()
-            fit_window.show()
+            self.solGraphDialog.create()
+            self.solGraphDialog.show()
+
+        if self.cb2.checkState() == QtCore.Qt.Checked:
+            self.fitGraphDialog.create()
+            self.fitGraphDialog.show()
+
 
 def main():
 
