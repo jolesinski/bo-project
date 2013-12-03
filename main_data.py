@@ -1,5 +1,5 @@
 import sys
-import gfx.data_mod as data_mod
+import data_mod
 
 def main():
 
