@@ -1,0 +1,14 @@
+******************************************************************************
+
+                                        graph_data format
+
+******************************************************************************
+Dictionary with keys (not all, only used by scheduler):
+
+    'fitness_data' - list of lists, [0] is a list of best fitness function values in
+                each population, [1] is list of median in each population
+
+    'solution_data' - data for algorithm solution
+    'task data' - second part of the solution (one with processing time)
+
+
