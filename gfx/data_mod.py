@@ -1,4 +1,5 @@
-import sys
+import sys, os
+import pickle
 from . import graph_mod
 from PyQt4 import QtGui, QtCore
 
@@ -32,8 +33,12 @@ class DataAnalysis(QtGui.QWidget):
         self.setFixedSize(200, 200)
         self.setWindowTitle('Data analysis')
 
-        self.fitGraphDialog = graph_mod.FitGraph()
-        self.solGraphDialog = graph_mod.SolGraph()
+        path = os.path.dirname(__file__)
+        path = os.path.join(os.path.dirname(path), 'config/graph_data.pickle')
+        with open(path, 'rb') as file:
+            graph_data = pickle.load(file)
+        self.fitGraphDialog = graph_mod.FitGraph(graph_data)
+        self.solGraphDialog = graph_mod.SolGraph(graph_data)
 
         self.show()
     def generate_plots(self):

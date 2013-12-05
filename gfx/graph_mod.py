@@ -13,19 +13,7 @@ class Graph(QtGui.QWidget):
         super().__init__()
 
         # Configure ui window
-        self.initUI()
-
-        self.init_data()
-
-        self.plot()
-
-
-    def init_data(self):
-        raise NotImplementedError("Implement me")
-
-
-    def plot(self):
-        raise NotImplementedError("Implement me")
+        self.initGraph()
 
 
     def centerWindow(self):
@@ -39,7 +27,7 @@ class Graph(QtGui.QWidget):
         self.move(qr.topLeft())
 
 
-    def initUI(self):
+    def initGraph(self):
         '''
             Configures plot window.
         '''
@@ -61,15 +49,19 @@ class Graph(QtGui.QWidget):
         self.path = os.path.dirname(__file__)
 
 
-
 class FitGraph(Graph):
-    def __init__(self):
+    def __init__(self, data):
         super().__init__()
+        self.data = data
+
+        self.init_data()
+
+        self.plot()
+
 
     def init_data(self):
-        path = os.path.join(os.path.dirname(self.path), 'config/fitness_data.pickle')
-        with open(path, 'rb') as file:
-            fitness_data = pickle.load(file)
+
+        fitness_data = self.data['fitness_data']
         self.fitness_vals = fitness_data[0]
         self.fitness_med = fitness_data[1]
         self.popul_list = range(1, len(self.fitness_vals)  + 1 )
@@ -92,47 +84,30 @@ class FitGraph(Graph):
 
 class SolGraph(Graph):
 
-    def __init__(self):
+    def __init__(self, data):
         super().__init__()
+        self.data = data
+
+        self.init_data()
+
+        self.plot()
 
 
     def init_data(self):
         # Load colors for graph
-        self.load_palette()
+        self.palette = self.data['palette_data']
 
         # Load solution data
-        self.load_solution()
+        self.solution = self.data['solution_data']
 
-        # Format solution data for graph
-        self.format_data()
-
-
-    def load_palette(self):
-        '''
-            Loads previously created palette using pickle
-        '''
-        path = os.path.join(os.path.dirname(self.path), 'config/palette_data.pickle')
-        with open(path, 'rb') as palette_data:
-            self.palette = pickle.load(palette_data)
-
-
-    def load_solution(self):
-        '''
-            Loads all necessary solution data using pickle
-        '''
-        path = os.path.join(os.path.dirname(self.path), 'config/solution_data.pickle')
-        with open(path, 'rb') as solution_data:
-            self.solution = pickle.load( solution_data )
-        path = os.path.join(os.path.dirname(self.path), 'config/sched_data.pickle')
-        with open(path, 'rb') as sched_file:
-            conf_data = pickle.load( sched_file )
-
+        conf_data = self.data['sched_data']
         self.proc_num = int(conf_data['proc_num'])
         self.task_num = int(conf_data['task_num'])
 
-        path = os.path.join(os.path.dirname(self.path), 'config/task_data.pickle')
-        with open(path, 'rb') as task_data:
-            self.task_data = pickle.load( task_data )
+        self.task_data = self.data['task_data']
+
+        # Format solution data for graph
+        self.format_data()
 
 
     def format_data(self):
