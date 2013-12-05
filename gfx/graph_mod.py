@@ -13,7 +13,7 @@ class Graph(QtGui.QWidget):
         super().__init__()
 
         # Configure ui window
-        self.initGraph()
+        self.initUI()
 
 
     def centerWindow(self):
@@ -27,7 +27,7 @@ class Graph(QtGui.QWidget):
         self.move(qr.topLeft())
 
 
-    def initGraph(self):
+    def initUI(self):
         '''
             Configures plot window.
         '''
@@ -45,8 +45,6 @@ class Graph(QtGui.QWidget):
         layout = QtGui.QVBoxLayout()
         layout.addWidget(self.canvas)
         self.setLayout(layout)
-
-        self.path = os.path.dirname(__file__)
 
 
 class FitGraph(Graph):
@@ -100,7 +98,10 @@ class SolGraph(Graph):
         # Load solution data
         self.solution = self.data['solution_data']
 
-        conf_data = self.data['sched_data']
+        path =  os.path.dirname(__file__)
+        path = os.path.join(os.path.dirname(path), 'config/sched_data.pickle')
+        with open(path, 'rb') as file:
+            conf_data = pickle.load(file)
         self.proc_num = int(conf_data['proc_num'])
         self.task_num = int(conf_data['task_num'])
 
