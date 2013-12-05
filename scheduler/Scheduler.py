@@ -8,7 +8,7 @@ class Scheduler:
 
     def __init__(self, popSize):
         self.LoadData()
-        self.goalVal=[]
+        self.goalVals=[]
         self.numTasks =10
         self.numProc = 11
 

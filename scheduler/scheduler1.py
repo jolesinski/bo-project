@@ -215,8 +215,8 @@ def GoalFunct(self, tasks, answer):
 
 def GoalFunctPop(self, tasks):
 		'''k'''
-		self.goalVal = [GoalFunct(task, individual) for individual in self.population]
-		return self.goalVal
+		self.goalVals = [GoalFunct(task, individual) for individual in self.population]
+		return self.goalVals
 
 def CountBinary(self, binList):
 		'''Counts ones in a list.'''
