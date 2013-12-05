@@ -1,16 +1,8 @@
 import random
 import pickle
 
-class Schedule:
-	'''Represents serialization of all specified tasks'''
-	
-	def __init__(self, popSize):
-		load_data()
-		self.population = GeneratePopulation(self, popSize)
-		
-	
-	
-	def Generate(self, taskStrct=None):
+
+def Generate(self, taskStrct=None):
 		'''If taskStrct == None, function creates random serialization:
 		it buils task_list, which contains numbers from 1 to task_num included.
 
@@ -35,7 +27,7 @@ class Schedule:
 			line=[]
 			random.seed()
 
-			for num in range(1,self.tas_num+1):
+			for num in range(1,self.task_num+1):
 				taskList.append(num)
 
 			for lineN in range(1, self.task_num+1):
@@ -52,25 +44,16 @@ class Schedule:
 
 		return taskStruct
 
-	def GeneratePopulation(self, popNum):
+def GeneratePopulation(self, popNum):
 		'''Kom kom kom kommm...'''
-		Self.population = []
+		self.population = []
 		for num in range(1,popNum+1):
-			self.population.append(Generate())
+			self.population.append(self.Generate())
 		return self.population
 
-	def load_data(self):
-		'''
-			Loadn config data for schedule.
-		'''
-
-		with open('config/sched_data.pickle', 'rb') as conf_file:
-			conf_data = pickle.load( conf_file )
-
-		self.proc_num = conf_data['proc_num']
-		self.task_num = conf_data['task_num']			
+		
 			
-	def inherit(self,anthr_ser):
+def Crossover(self,anthr_ser):
 		'''We take task order from one Serial object(self or anthr_ser) and processors
 		attribution from second. To determinate, which parent will give what to child,
 		we use round(random.random()), which can be 0 or 1. If is equal 0, then object, which
@@ -90,7 +73,7 @@ class Schedule:
 		new_serial = Serial(new_struct_i)
 		return new_serial
 		
-	def mutate_q(self):
+def MutateQ(self):
 		'''Object will change randomly tasks order - two of the tasks will
 		change their places. To achive this, we have to find, which two 
 		task will take each others places. It is written in first_q and 
@@ -135,7 +118,7 @@ class Schedule:
 		new_serq = Serial(new_struct_q)
 		return new_serq
 
-	def mutate_a(self):
+def MutateA(self):
 		'''Object will change processors attribution - two of the tasks will
 		exchange their processors attribution. To achive this, we have to find, 
 		which two tasks will exchange their processors attribution. It is 
@@ -185,7 +168,7 @@ class Schedule:
 		new_sera = Serial(self.task_queue,new_assa)
 		return new_sera
 
-	def SendToFile(self):
+def SendToFile(self):
 		'''Not very useful! Only for testing small problems!'''
 		allPopList =[]
 		with open(configFile.dataFName, mode='rb') as dFile:
@@ -193,7 +176,7 @@ class Schedule:
 		with open(configFile.dataFName, mode='wb') as dFile:
 			picle.dump(allPopList ,dFile)		
 
-	def GoalFunct(self, tasks, answer):
+def GoalFunct(self, tasks, answer):
 		'''koooooomcia ni ma'''
 
 		procArr=[]
@@ -237,14 +220,14 @@ class Schedule:
 		
 
 
-	def GoalFunctPop(self, tasks):
+def GoalFunctPop(self, tasks):
 		'''k'''
 		self.goalVal=[]
 		for index in range(0, len(self.population)):
 			self.goalVal[index]=GoalFunct(tasks, self.population[index])
 		return self.goalVal
 
-	def CountBinary(self, binList):
+def CountBinary(self, binList):
 		'''Counts ones in a list.'''
 		for index in range(0, len(binList)):
 			sumOf1 =sumOf1+binList[index]
