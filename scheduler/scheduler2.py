@@ -10,9 +10,7 @@ def LoadData(self):
      self.task_num = conf_data['task_num']	
 
 
-def SendToFile(self, configFile):
+def SendToFile(self):
 		'''Save fitness func to file'''
 		with open(configFile.dataFName, mode='rb') as dFile:
 			allPopList = pickle.load(dFile)
-		with open(configFile.dataFName, mode='wb') as dFile:
-			pickle.dump(allPopList ,dFile)	
