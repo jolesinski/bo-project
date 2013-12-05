@@ -46,6 +46,25 @@ class Graph(QtGui.QWidget):
         layout.addWidget(self.canvas)
         self.setLayout(layout)
 
+class PopulationGraph(Graph):
+    def __init__(self, data):
+        super().__init__()
+        self.data = data
+
+        self.init_data()
+
+        self.plot()
+
+
+    def init_data(self):
+        fitness_data = self.data['population_data']
+
+
+    def plot(self):
+        graph = self.figure.add_subplot(1, 1, 1)
+
+
+        self.canvas.draw()
 
 class FitGraph(Graph):
     def __init__(self, data):
