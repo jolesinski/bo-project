@@ -8,4 +8,5 @@ class Scheduler:
 
     def __init__(self, popSize):
         self.LoadData()
+        self.goalVal=[]
         self.population = self.GeneratePopulation(popSize)

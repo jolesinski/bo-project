@@ -222,9 +222,7 @@ def GoalFunct(self, tasks, answer):
 
 def GoalFunctPop(self, tasks):
 		'''k'''
-		self.goalVal=[]
-		for index in range(0, len(self.population)):
-			self.goalVal[index]=GoalFunct(tasks, self.population[index])
+		self.goalVal = [GoalFunct(task, individual) for individual in self.population]
 		return self.goalVal
 
 def CountBinary(self, binList):
