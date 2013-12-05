@@ -1,4 +1,5 @@
 import random
+import os
 import pickle
 
 def LoadData(self):
@@ -10,7 +11,18 @@ def LoadData(self):
      self.task_num = conf_data['task_num']	
 
 
-def SendToFile(self):
-		'''Save fitness func to file'''
-		with open(configFile.dataFName, mode='rb') as dFile:
-			allPopList = pickle.load(dFile)
+def SaveData(self):
+    '''Save fitness func to file'''
+    
+    
+    path = os.path.dirname(__file__)
+    path = os.path.join(os.path.dirname(path), 'config/graph_data.pickle')
+
+    graphData = dict()
+    graphData['fitness_data'] = [[],[]]
+    graphData['solution_data'] = self.Generate()
+    graphData['task_data'] = ...
+    graphData['population_data'] = ...
+
+    with open(path, mode='rb') as dFile:
+        pickle.dump(graphData, dFile)
