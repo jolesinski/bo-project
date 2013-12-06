@@ -2,27 +2,27 @@ import random
 import os
 import pickle
 
-def LoadData(self):
-     '''Loading config data for scheduling'''
-     with open('config/sched_data.pickle', 'rb') as conf_file:
-          conf_data = pickle.load( conf_file )
+def LoadInputData(self, problem):
+     '''Loading scheduler input data
+     from generated problem'''
 
-     self.proc_num = conf_data['proc_num']
-     self.task_num = conf_data['task_num']	
+     self.numProc = problem.numProc
+     self.numTasks = problem.numTasks
+     self.timings = problem.timings
 
 
-def SaveData(self):
+def SaveGraphData(self):
     '''Save fitness func to file'''
     
     
     path = os.path.dirname(__file__)
     path = os.path.join(os.path.dirname(path), 'config/graph_data.pickle')
 
-    graphData = dict()
-    graphData['fitness_data'] = [[],[]]
-    graphData['solution_data'] = self.Generate()
-    graphData['task_data'] = ...
-    graphData['population_data'] = ...
-
     with open(path, mode='rb') as dFile:
+        graphData = pickle.load(dFile)
+        
+    graphData['solution_data'] = self.solution
+    graphData['task_data'] = self.timings
+
+    with open(path, mode='wb') as dFile:
         pickle.dump(graphData, dFile)

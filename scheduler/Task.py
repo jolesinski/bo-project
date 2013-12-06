@@ -10,8 +10,11 @@ import random
 class Problem:
     '''Class used to represent the scheduling problem.'''
 
-    numProcMax = 100
-    numTasksMax = 1000   
+    '''as we have 3 dimensional task_data, bigger problems
+    get untractable, ex: numProc = 44, numTasks = 259
+    we get 44*44*259 > 0.5 milion entries to task_data'''
+    numProcMax = 20
+    numTasksMax = 100   
     taskTimingMax = 100
 
     def __init__(self, numProc = 4, numTasks = 5, timings = []):
@@ -24,7 +27,19 @@ class Problem:
         random.seed()
         numProc = random.randint(1, Problem.numProcMax)
         numTasks = random.randint(1, Problem.numTasksMax)
-        timings = [[[i3 for i3 in range(1, numProc)] for i2 in range(1, numProc)] for i1 in range(1, numTasks)]
+        
+        def byParallelization(time):
+            '''for now it simply divides the single-threaded
+            execution time by the number of threads'''            
+            return tuple(round(time / i) for i in range(1,numProc+1))
+        def byProcessor(task):
+            '''for now it simply takes processor id
+            multiplied by task id as single-threaded exec time'''
+            return tuple(byParallelization((i*task) % Problem.taskTimingMax) for i in range(1, numProc+1))
+            
+        '''generate task_data'''            
+        timings = tuple(byProcessor(i) for i in range(1, numTasks+1))
+
         return Problem(numProc, numTasks, timings)
         
     Random = staticmethod(Random)
