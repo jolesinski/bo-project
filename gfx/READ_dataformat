@@ -9,7 +9,10 @@ Dictionary with keys (not all, only used by scheduler):
                 each population, [1] is list of median in each population
 
     'solution_data' - data for algorithm solution
-    'task_data' - task data containing info about processing time
+    'task_data' - task data containing info about problem size and processing time - dict with keys:
+										'num_task'
+										'num_proc'
+										'timings'
     'population_data' - list of n dictionaries where n is quantity of all population, with keys:
                                         'mutation_op'                           : [ acc_num, unacc_num ]
                                         'crossover_op'                          : [ acc_num, unacc_num ]

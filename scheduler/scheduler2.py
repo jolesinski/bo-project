@@ -22,7 +22,7 @@ def SaveGraphData(self):
         graphData = pickle.load(dFile)
         
     graphData['solution_data'] = self.solution
-    graphData['task_data'] = self.timings
+    graphData['task_data'] = {'task_num':self.numTasks,'proc_num':self.numProc,'timings':self.timings}
 
     with open(path, mode='wb') as dFile:
         pickle.dump(graphData, dFile)

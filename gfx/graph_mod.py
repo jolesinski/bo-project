@@ -119,12 +119,13 @@ class SolGraph(Graph):
 
         path =  os.path.dirname(__file__)
         path = os.path.join(os.path.dirname(path), 'config/sched_data.pickle')
-        with open(path, 'rb') as file:
-            conf_data = pickle.load(file)
-        self.proc_num = int(conf_data['proc_num'])
-        self.task_num = int(conf_data['task_num'])
-
-        self.task_data = self.data['task_data']
+        #with open(path, 'rb') as file:
+        #   conf_data = pickle.load(file)
+        #self.proc_num = int(conf_data['proc_num'])
+        #self.task_num = int(conf_data['task_num'])
+        self.proc_num = self.data['task_data']['proc_num']
+        self.task_num = self.data['task_data']['task_num']
+        self.task_data = self.data['task_data']['timings']
 
         # Format solution data for graph
         self.format_data()
