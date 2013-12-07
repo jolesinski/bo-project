@@ -23,10 +23,10 @@ class Problem:
         self.numTasks = numTasks
         self.timings = timings
         
-    def Random():
+    def Random(numProc = random.randint(1, numProcMax),
+               numTasks = random.randint(1, numTasksMax)):
+                   
         random.seed()
-        numProc = random.randint(1, Problem.numProcMax)
-        numTasks = random.randint(1, Problem.numTasksMax)
         
         def byParallelization(time):
             '''for now it simply divides the single-threaded

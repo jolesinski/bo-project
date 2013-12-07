@@ -12,7 +12,7 @@ def main():
     print('initializing...')
     sched = Scheduler(10)
     print('generating solution...')
-    sched.solution = sched.Generate()
+    sched.solution = sched.RandomSolution()
     print('saving...')
     sched.SaveGraphData()
     print('calling gui...')
