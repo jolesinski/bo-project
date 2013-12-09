@@ -1,6 +1,7 @@
 import sys, os
 import pickle
 from PyQt4 import QtGui
+import numpy as np
 
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 
@@ -57,11 +58,79 @@ class PopulationGraph(Graph):
 
 
     def init_data(self):
-        fitness_data = self.data['population_data']
+        population_data = self.data['population_data']
+        pop_count = len(population_data)
+
+        macc_sum = 0
+        munacc_num =0
+        mwork_time = 0
+        cacc_sum = 0
+        cunacc_num =0
+        cwork_time = 0
+        for population in population_data:
+            macc_sum = population['mutation_op'][0]
+            cacc_sum = population['crossover_op'][0]
+
+            munacc_sum = population['mutation_op'][1]
+            cunacc_sum = population['crossover_op'][1]
+
+            mwork_time = population['mutation_op'][2]
+            cwork_time = population['crossover_op'][2]
+
+        self.avrg_macc = round(macc_sum / pop_count)
+        self.avrg_cacc = round(cacc_sum / pop_count)
+
+        self.avrg_munacc = round(munacc_sum / pop_count)
+        self.avrg_cunacc = round(cunacc_sum / pop_count)
+
+        self.avrg_mduration = round(mwork_time / pop_count)
+        self.avrg_cduration = round(cwork_time / pop_count)
 
 
     def plot(self):
         graph = self.figure.add_subplot(1, 1, 1)
+
+        indent = [0, 0.5, 1.3, 1.8]
+        ticks = indent
+        indent = np.array(indent)
+        width = 0.35
+        y_max = max( [self.avrg_cacc, self.avrg_cunacc, self.avrg_macc,
+                  self.avrg_munacc]) + 10
+        if y_max % 10 = 0:
+            y_max += 1
+        mutation_means = (self.avrg_macc, 0, self.avrg_munacc, 0)
+        xover_means = (0, self.avrg_macc, 0, self.avrg_munacc)
+
+        p1 = graph.bar(indent, mutation_means, width, color='#A8B214')
+        p2 = graph.bar(indent, xover_means, width, color='#0B64B2')
+        graph.ylabel('#')
+        graph.yticks(np.arange(0,y_max,10))
+        graph.legend( (p1[0], p2[0]), ('Mutation operator',
+                                       'Crossover operator'),
+                                    loc='upper left')
+
+        graph2 = graph.twinx()
+        indent = [2.5, 3]
+        ticks.extend(indent)
+        ticks = np.array(ticks)
+        indent = np.array(indent)
+        duration_means = (self.avrg_mduration, self.avrg_cduration)
+        if self.avrg_mduration > self.avrg_cduration:
+            y_max = self.avrg_mduration + 10
+        else:
+            y_max = self.avrg_cduration + 10
+        if y_max % 10 = 0:
+            y_max += 1
+        graph2.bar(indent, duration_means, width, color='#FF4C43')
+        graph2.set_ylabel('time [sec]')
+        graph.xticks(ticks + width/2.,
+                ('Acceptable \nsolutions',
+                 'Acceptable \nsolutions',
+                 'Unacceptable \nsolutions',
+                 'Unacceptable \nsolutions',
+                 'Mutation operator\n average worktime',
+                 'Crossover operator\n average worktime') )
+        graph2.set_yticks(np.arange(0,y_max,10))
 
 
         self.canvas.draw()
