@@ -217,7 +217,7 @@ class SolGraph(Graph):
                     self.facecolors[index].append(self.palette[task_id][0])
                     self.textcolors[index].append(self.palette[task_id][1])
                     self.edgecolors[index].append('black')
-                    self.task_ids[index].append('Task no.' + str( task_id + 1 ))
+                    self.task_ids[index].append(str( task_id + 1 ))
 
             # add dead spaces for pipes that need to wait for synchro.
             for index in active_processors:
@@ -229,7 +229,7 @@ class SolGraph(Graph):
                                                     dspace_length))
                     pipes_length[index] += dspace_length
 
-                    self.facecolors[index].append('grey')
+                    self.facecolors[index].append('black')
                     self.textcolors[index].append('black')
                     self.edgecolors[index].append('black')
                     self.task_ids[index].append('')
@@ -271,7 +271,8 @@ class SolGraph(Graph):
         graph.set_yticklabels(self.y_labels)
 
         # set ticks for axes
-        graph.set_xticks(range(0, self.x_limit, 5))
+        x_step = self.x_limit / 20
+        graph.set_xticks(range(0, self.x_limit, int(x_step)))
         graph.set_yticks(range(2, height, 5))
 
         graph.grid(True)
