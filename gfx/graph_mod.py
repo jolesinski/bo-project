@@ -96,7 +96,7 @@ class PopulationGraph(Graph):
         width = 0.35
         y_max = max( [self.avrg_cacc, self.avrg_cunacc, self.avrg_macc,
                   self.avrg_munacc]) + 10
-        if y_max % 10 = 0:
+        if y_max % 10 == 0:
             y_max += 1
         mutation_means = (self.avrg_macc, 0, self.avrg_munacc, 0)
         xover_means = (0, self.avrg_macc, 0, self.avrg_munacc)
@@ -119,7 +119,7 @@ class PopulationGraph(Graph):
             y_max = self.avrg_mduration + 10
         else:
             y_max = self.avrg_cduration + 10
-        if y_max % 10 = 0:
+        if y_max % 10 == 0:
             y_max += 1
         graph2.bar(indent, duration_means, width, color='#FF4C43')
         graph2.set_ylabel('time [sec]')
