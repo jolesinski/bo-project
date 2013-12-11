@@ -11,8 +11,10 @@ import main_data
 def main():
     print('initializing...')
     sched = Scheduler(10)
-    print('generating solution...')
-    sched.solution = sched.RandomSolution()
+    print('solving...')
+    sched.solution = sched.Solve()
+    print('Cmax:')
+    print(sched.Fitness(sched.solution))
     print('saving...')
     sched.SaveGraphData()
     print('calling gui...')

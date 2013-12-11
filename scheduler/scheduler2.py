@@ -42,3 +42,30 @@ def RandomSolution(self):
         return binarized
         
     return [(task, assignProc()) for task in orderedTasks]
+    
+def RandomPopulation(self):    
+    '''Generates a population of random feasible solutions'''
+    return [self.RandomSolution() for i in range(self.popSize)]
+    
+def Fitness(self, solution):
+    '''Calculates fitnes of a given solution'''
+    taskIds = list(range(self.numTasks))
+    procIds = list(range(self.numProc))
+    
+    c = [0 for procId in procIds]
+    for task in solution:
+        taskId = task[0]
+        procList = task[1]
+        parallelization = sum(procList)
+        synchronizationTime = 0;
+        for procId in procIds:
+            if procList[procId] == 1:
+                c[procId] += self.timings[taskId][parallelization-1][procId]
+                if(c[procId] > synchronizationTime):
+                    synchronizationTime = c[procId]
+        for procId in procIds:
+            if procList[procId] == 1:
+                if(c[procId] < synchronizationTime):
+                    c[procId] = synchronizationTime
+    return max(c)
+        

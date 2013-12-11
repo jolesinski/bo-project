@@ -64,11 +64,11 @@ def Crossover(self,anthr_ser):
 
 		if(round(random.random()) == 0):
 			new_struct_i = anthr_ser.task_struct
-			for line_num in range(1, config_file.numTasks+1):
+			for line_num in range(1, self.numTasks+1):
 				new_struct[line_num][0] = self.task_struct[line_num][0]
 		else:
 			new_struct_i = self.task_struct
-			for line_num in range(1, config_file.numTasks+1):
+			for line_num in range(1, self.numTasks+1):
 				new_struct[line_num][0] = anthr_ser.task_struct[line_num][0]
 		new_serial = Serial(new_struct_i)
 		return new_serial
@@ -96,11 +96,11 @@ def MutateQ(self):
 		function. In this way, we don't overwrite object, which called
 		out function.'''
 
-		first_q = random.randrange(1, config_file.numTasks+1)
-		second_q = random.randrange(1, config_file.numTasks+1)
+		first_q = random.randrange(1, self.numTasks+1)
+		second_q = random.randrange(1, self.numTasks+1)
 
-		while (second_q == first_q) or (config_file.numTasks==1):
-			second_q = random.randrange(1, config_file.numTasks+1)
+		while (second_q == first_q) or (self.numTasks==1):
+			second_q = random.randrange(1, self.numTasks+1)
 		
 		new_struct_q = self.task_struct
 		temp_fq = new_struct_q[first_q - 1]
@@ -144,11 +144,11 @@ def MutateA(self):
 		function. In this way, we don't overwrite object, which called
 		out function.'''
 
-		first_a = random.randrange(1, config_file.numTasks+1)
-		second_a = random.randrange(1, config_file.numTasks+1)
+		first_a = random.randrange(1, self.numTasks+1)
+		second_a = random.randrange(1, self.numTasks+1)
 
-		while (second_a == first_a) or (config_file.numTasks==1):
-			second_a = random.randrange(1, config_file.numTasks+1)
+		while (second_a == first_a) or (self.numTasks==1):
+			second_a = random.randrange(1, self.numTasks+1)
 		
 		new_struct_a = self.task_struct
 		temp_fa = new_struct_a[first_a - 1]
@@ -174,7 +174,7 @@ def GoalFunct(self, tasks, answer):
 
 		procArr=[]
 		for taskI in range(0, self.numTasks):
-			procArr[taskI]=CountBinary(answer[taskI][1])
+			procArr[taskI]=sum(answer[taskI][1])
 
 		procAttrib=[]
 		for taskI in range(0, self.numTasks):
@@ -188,21 +188,21 @@ def GoalFunct(self, tasks, answer):
 		for taskI in range(0, self.numTasks):
 			for procI in range(0, self.numProc):
 				if answer[taskI][1][procI] == 0:
-					notZeroFlag[procI]=0
+					notZeroFlags[procI]=0
 				else:
 					if procAttrib[taskI][procI] == -1:
-						return Null
+						return None
 					else:
 						executeTime[procI] = executeTime[procI] + procAttrib[taskI][procI]
-						notZeroFlag[procI] = 1
+						notZeroFlags[procI] = 1
 			
 			maxVal = 0
 			for procI in range(0, self.numProc):
-				if notZeroFlag[procI] and (maxVal<executeTime[procI]):
+				if notZeroFlags[procI] and (maxVal<executeTime[procI]):
 					maxVal=executeTime[procI]
 
 			for procI in range(0, self.numProc):
-				if notZeroFlag[procI]:
+				if notZeroFlags[procI]:
 					executeTime[procI]=maxVal
 		longest=0
 		for procI in range(0, self.numProc):
@@ -213,16 +213,10 @@ def GoalFunct(self, tasks, answer):
 		
 
 
-def GoalFunctPop(self, tasks):
+def GoalFunctPop(self, population, tasks):
 		'''k'''
-		self.goalVals = [GoalFunct(task, individual) for individual in self.population]
+		self.goalVals = [self.GoalFunct(tasks, individual) for individual in population]
 		return self.goalVals
-
-def CountBinary(self, binList):
-		'''Counts ones in a list.'''
-		for index in range(0, len(binList)):
-			sumOf1 =sumOf1+binList[index]
-		return sumOf1
 			
 	
 
