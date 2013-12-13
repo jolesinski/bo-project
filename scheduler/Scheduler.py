@@ -53,7 +53,8 @@ class Scheduler:
         
     
     #EA alg helper functions
-    def Solve(self):
+    def Solve(self, iterations = 100):
+        Scheduler.MaxIterations = iterations
         '''EvAlg similiar to that from slides'''
         def EvolutionaryAlgorithm():
             initial = self.initial

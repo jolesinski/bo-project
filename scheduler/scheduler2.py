@@ -69,7 +69,7 @@ def Fitness(self, solution):
                     c[procId] = synchronizationTime
     return max(c)
         
-def Selection(self, population, u, epsilon):
+def Selection(self, population, u, epsilon = 0.5):
     '''Sort population wrt fitness, take u for mutation, cross the rest'''
     population = sorted(population, key = lambda sol: self.Fitness(sol))
     parents = population[:u]
@@ -85,21 +85,27 @@ def Selection(self, population, u, epsilon):
     parents.extend(kids)
     return parents
     
-def Mutate(self, parent, epsilon):
-    kid = parent
-    i = random.randint(len(parent))
+def Mutate(self, parent, epsilon = 0.5):
+    kid = parent.copy()
     if random.rand() > epsilon:
-        j = random.randint(len(parent))
+        (i, j) = random.choice(range(len(parent)), 2, False)
         kid[i] = parent[j]
         kid[j] = parent[i]
     else:
+        i = random.randint(len(parent))
         j = random.randint(self.numProc)
-        kid[i][1][j] = kid[i][1][j] ^ 1
+        temp = kid[i][1].copy()
+        temp[j] ^= 1
+        if sum(temp) == 0:
+            j = random.randint(self.numProc)
+            temp[j] ^= 1
+        kid[i] = (kid[i][0], temp)
+        #assert(kid[i][1] != parent[i][1])
     return kid
     
 def Cross(self, parent1, parent2):
-    kid1 = parent1
-    kid2 = parent2        
+    kid1 = parent1.copy()
+    kid2 = parent2.copy()   
     for i in range(self.numTasks):
         kid1[i] = (kid1[i][0], parent2[i][1])
         kid2[i] = (kid2[i][0], parent1[i][1])

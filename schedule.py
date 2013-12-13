@@ -12,13 +12,13 @@ def main():
     print('initializing...')
     sched = Scheduler(10)
     print('solving...')
-    sched.solution = sched.Solve()
+    sched.solution = sched.Solve(iterations = 1000)
     print('Cmax:')
     print(sched.Fitness(sched.solution))
     print('saving...')
     sched.SaveGraphData()
     print('calling gui...')
-    #main_data.main()    
+    main_data.main()    
 
 if __name__ == '__main__':
     main()
