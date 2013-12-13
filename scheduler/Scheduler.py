@@ -19,6 +19,9 @@ class Scheduler:
         
         self.solution = self.RandomSolution()
         self.population = self.GeneratePopulation(popSize)
+        
+        '''log data from solver'''
+        self.logFitness = []
     
     MutationOperators = [MutateQ, MutateA]
     CrossoverOperators = [Crossover]
@@ -48,9 +51,8 @@ class Scheduler:
         return population[maxIndex]               
         
     def logData(self, population, rating, t):
-        print(rating)
+        self.logFitness.append(rating)
         print(t)
-        
     
     #EA alg helper functions
     def Solve(self, iterations = 100):

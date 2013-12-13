@@ -13,7 +13,16 @@ def LoadInputData(self, problem):
 
 def SaveGraphData(self):
     '''Save fitness func to file'''
+    def median(mylist):
+        sorts = sorted(mylist)
+        length = len(sorts)
+        if not length % 2:
+            return (sorts[int(length / 2)] + sorts[int(length / 2) - 1]) / 2
+        return sorts[int(length / 2)]    
     
+    
+    logBest = [min(fit) for fit in self.logFitness] 
+    logMedian = [median(fit) for fit in self.logFitness]
     
     path = os.path.dirname(__file__)
     path = os.path.join(os.path.dirname(path), 'config/graph_data.pickle')
@@ -23,7 +32,8 @@ def SaveGraphData(self):
         
     graphData['solution_data'] = self.solution
     graphData['task_data'] = {'task_num':self.numTasks,'proc_num':self.numProc,'timings':self.timings}
-
+    graphData['fitness_data'] = [logBest, logMedian]    
+    
     with open(path, mode='wb') as dFile:
         pickle.dump(graphData, dFile)
         
@@ -100,7 +110,7 @@ def Mutate(self, parent, epsilon = 0.5):
             j = random.randint(self.numProc)
             temp[j] ^= 1
         kid[i] = (kid[i][0], temp)
-        #assert(kid[i][1] != parent[i][1])
+        #\assert(kid[i][1] != parent[i][1])
     return kid
     
 def Cross(self, parent1, parent2):

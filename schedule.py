@@ -10,9 +10,9 @@ import main_data
 
 def main():
     print('initializing...')
-    sched = Scheduler(10)
+    sched = Scheduler(20)
     print('solving...')
-    sched.solution = sched.Solve(iterations = 1000)
+    sched.solution = sched.Solve(iterations = 5000)
     print('Cmax:')
     print(sched.Fitness(sched.solution))
     print('saving...')
