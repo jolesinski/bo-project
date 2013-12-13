@@ -28,17 +28,17 @@ class Problem:
                    
         random.seed()
         
-        def byParallelization(time):
+        def byParallelization(task):
             '''for now it simply divides the single-threaded
             execution time by the number of threads'''            
-            return tuple(round(time / i) for i in range(1,numProc+1))
-        def byProcessor(task):
+            return tuple(byProcessor(task, i) for i in range(1,numProc+1))
+        def byProcessor(task, paral):
             '''for now it simply takes processor id
             multiplied by task id as single-threaded exec time'''
-            return tuple(byParallelization((i*task) % Problem.taskTimingMax) for i in range(1, numProc+1))
+            return tuple(round(((i*task) % Problem.taskTimingMax)/paral) for i in range(1, numProc+1))
             
-        '''generate task_data'''            
-        timings = tuple(byProcessor(i) for i in range(1, numTasks+1))
+        '''generate task_data["timings"]'''            
+        timings = tuple(byParallelization(i) for i in range(1, numTasks+1))
 
         return Problem(numProc, numTasks, timings)
         

@@ -6,7 +6,8 @@ class Scheduler:
     from scheduler.scheduler1 import GeneratePopulation, Generate, Crossover
     from scheduler.scheduler1 import MutateQ, MutateA, GoalFunct, GoalFunctPop
     from scheduler.scheduler2 import LoadInputData, SaveGraphData, RandomSolution
-    from scheduler.scheduler2 import RandomPopulation, Fitness
+    from scheduler.scheduler2 import RandomPopulation, Fitness, Selection
+    from scheduler.scheduler2 import Mutate, Cross
 
 
     def __init__(self, popSize, problem = Problem.Random()):
@@ -23,6 +24,10 @@ class Scheduler:
     CrossoverOperators = [Crossover]
     
     
+    '''Params used in EvAlg'''
+    MaxIterations = 100
+    
+    
     '''Fun used in EvAlg, defined outside to enable assigning other fun to them'''
     def initial(self):
         #return self.GeneratePopulation(self.popSize)
@@ -30,20 +35,22 @@ class Scheduler:
                 
     def assess(self, population):
         #return self.GoalFunctPop(population, self.timings)
-        return [1 for p in population]
+        return [self.Fitness(sol) for sol in population]
                     
-    def stopCondition(self, rating):
-        return True        
+    def stopCondition(self, rating, t):
+        return t >= Scheduler.MaxIterations
 
     def evolve(self, population):
-        return population        
+        return self.Selection(population,4, 0.5)
         
     def bestFit(self, population, rating):
-        maxIndex = max(enumerate(rating),key=lambda x: x[1])[0]
-        return population[maxIndex]           
-    
-    
-    
+        maxIndex = min(enumerate(rating),key=lambda x: x[1])[0]
+        return population[maxIndex]               
+        
+    def logData(self, population, rating, t):
+        print(rating)
+        print(t)
+        
     
     #EA alg helper functions
     def Solve(self):
@@ -55,11 +62,14 @@ class Scheduler:
             evolve = self.evolve
             bestFit = self.bestFit
         
+            t = 0
             self.population = initial()
             rating = assess(self.population)
-            while not stopCondition(rating):
+            while not stopCondition(rating, t):
+                t = t + 1
                 self.population = evolve(self.population)
                 rating = assess(self.population)
+                self.logData(self.population, rating, t)
             return bestFit(self.population, rating)
             
             

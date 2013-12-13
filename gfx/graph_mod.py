@@ -247,7 +247,7 @@ class SolGraph(Graph):
 
             # set task_id
             # !!!! IF They start from 0 change to task[0]
-            task_id = task[0] - 1
+            task_id = task[0]
 
             # set proc_list for clarity
             processor_list = task[1]
@@ -340,7 +340,7 @@ class SolGraph(Graph):
         graph.set_yticklabels(self.y_labels)
 
         # set ticks for axes
-        x_step = self.x_limit / 20
+        x_step = self.x_limit / 20 +1
         graph.set_xticks(range(0, self.x_limit, int(x_step)))
         graph.set_yticks(range(2, height, 5))
 

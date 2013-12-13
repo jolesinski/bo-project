@@ -18,7 +18,7 @@ def main():
     print('saving...')
     sched.SaveGraphData()
     print('calling gui...')
-    main_data.main()    
+    #main_data.main()    
 
 if __name__ == '__main__':
     main()
