@@ -6,6 +6,8 @@ Created on Thu Dec  5 20:20:23 2013
 """
 
 import random
+import os
+import pickle
 
 class Problem:
     '''Class used to represent the scheduling problem.'''
@@ -22,6 +24,28 @@ class Problem:
         self.numProc = numProc
         self.numTasks = numTasks
         self.timings = timings
+        
+    def Save(self):
+        problemData = {'numProc': self.numProc, 'numTasks': self.numTasks, 'timings': self.timings}        
+        
+        path = os.path.dirname(__file__)
+        path = os.path.join(os.path.dirname(path), 'config/problem_data.pickle')
+        
+        with open(path, mode='wb') as dFile:
+            pickle.dump(problemData, dFile)
+            
+    def Load():        
+        path = os.path.dirname(__file__)
+        path = os.path.join(os.path.dirname(path), 'config/problem_data.pickle')
+
+        with open(path, mode='rb') as dFile:
+            problemData = pickle.load(dFile)
+            
+        numProc = problemData['numProc']
+        numTasks = problemData['numTasks']
+        timings = problemData['timings']
+        
+        return Problem(numProc, numTasks, timings)
         
     def Random(numProc = random.randint(1, numProcMax),
                numTasks = random.randint(1, numTasksMax)):
