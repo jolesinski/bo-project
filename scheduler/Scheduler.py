@@ -29,6 +29,8 @@ class Scheduler:
     
     '''Params used in EvAlg'''
     MaxIterations = 100
+    MaxIterStabilized = 500
+    MaxKicks = 3
     
     
     '''Fun used in EvAlg, defined outside to enable assigning other fun to them'''
@@ -40,7 +42,7 @@ class Scheduler:
         #return self.GoalFunctPop(population, self.timings)
         return [self.Fitness(sol) for sol in population]
                     
-    def stopCondition(self, rating, t):
+    def stopCondition1(self, rating, t):
         return t >= Scheduler.MaxIterations
 
     def evolve(self, population):
@@ -61,7 +63,7 @@ class Scheduler:
         def EvolutionaryAlgorithm():
             initial = self.initial
             assess = self.assess
-            stopCondition = self.stopCondition
+            stopCondition = self.stopCondition2
             evolve = self.evolve
             bestFit = self.bestFit
         
@@ -79,5 +81,23 @@ class Scheduler:
         self.solution = EvolutionaryAlgorithm();        
         return self.solution
 
-
+    def stopCondition2(self, rating, t):
+        def kick(population, n):
+            '''leaves n elems in pop, randomize others'''
+            assert(n < len(population))
+            return [pop if i < n else self.RandomSolution() for i, pop in enumerate(population)]
+                    
+        best = min(rating)
+        if t == 0 or best < self.bestSoFar:
+            self.bestSoFar = best
+            self.tStabilized = 0
+            self.kicks = 0
+        else:
+            self.tStabilized = self.tStabilized + 1
+            
+        if self.tStabilized > Scheduler.MaxIterStabilized:
+            self.kicks = self.kicks + 1;
+            self.population = kick(self.population, self.popSize - 2)
+            
+        return self.kicks >= Scheduler.MaxKicks
     

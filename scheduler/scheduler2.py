@@ -59,7 +59,6 @@ def RandomPopulation(self):
     
 def Fitness(self, solution):
     '''Calculates fitnes of a given solution'''
-    taskIds = list(range(self.numTasks))
     procIds = list(range(self.numProc))
     
     c = [0 for procId in procIds]
