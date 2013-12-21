@@ -24,6 +24,22 @@ plots. In your terminal enter:
 
 ###############################################################################
 
+                            To Do List
+
+###############################################################################
+
+GUI:
+- generowanie dowolnych wykresów - w graph_data zamienić fitness_data np na plot_data
+ktory bedzie dictem w formie: { 'nazwa_wykresu':[wartosci, argumenty] }
+- scrollbar przy wyswietlaniu wykresu Gantta, zeby na wiekszych wykresach bylo cos widac
+- przy wyświetlaniu rozwiazania zaznaczyc czas zakonczenia wszystkich zadan i 
+podpisac wartoscia, tak zeby sie dalo porownywac rozwiazania po wykresach
+
+Solver:
+- 
+
+###############################################################################
+
                             Credits
 
 ###############################################################################
