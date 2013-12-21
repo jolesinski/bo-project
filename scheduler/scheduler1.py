@@ -1,5 +1,7 @@
-import random
+import numpy.random as random
 import pickle
+import none
+import scheduler2.RandomSolution as RandomSolution
 
 
 def Generate(self, taskStrct=None):
@@ -219,5 +221,50 @@ def GoalFunctPop(self, population, tasks):
 		return self.goalVals
 			
 	
-
-
+def Cross2(self, parent1, parent2):
+    '''Little faster Cross'''
+    kid1 = parent1.copy()
+    kid2 = parent2.copy()   
+    for i in range(self.numTasks):
+        kid1[i] = (kid1[i][0], kid2[i][1])
+    return kid1
+    
+def Cross3(self, parent1, parent2):
+    '''Completly random - if we want to go out from stabilized point.'''
+    return RandomSolution()
+    
+def Cross4(self, parent1, parent2):
+    '''tasks order - random, process assignment nand-ed.
+        Thanks to that kid don't resemble parents(in real
+        world it would be a little confusing).'''
+    kid1 = parent1.copy()
+    kid2 = parent2.copy()     
+    orderedTasks = random.permutation(range(self.numTasks))
+    
+    for i in range(self.numTasks):
+        for j in range(self.numProc):
+            kid1[i][1][j]=int(not(kid1[i][1][j]&kid2[i][1][j]))
+        kid1[i][0] = orderedTasks[i]
+    return kid1
+    
+def Similarity(self, entity1, entity2):
+    '''Checks similarity of 2 entities. Takes value
+        from 0 to 1. When 1, entity1 == entity2.'''
+    copy1 = entity1.copy()
+    copy2 = entity2.copy()
+    
+    tasksEq = 0
+    procsEq = 0
+    
+    for i in range(self.numTasks):
+        for j in range(self.numProc):
+            procsEq+=int(copy1[i][1][j]==copy2[i][1][j])
+        tasksEq+=int(copy1[i][0]==copy2[i][0])
+    return tasksEq/self.numTasks+procsEq/(self.numTasks*self.numProc)
+    
+def Cross5(self, parent1, parent2, similar = 0.3):
+    '''Completly random - if we want to go out from stabilized point.'''
+    randomKid = RandomSolution()
+    while (Similarity(parent1,randomKid)>similar)or(Similarity(randomKid,parent2)>similar):
+        randomKid = RandomSolution()
+    return randomKid
