@@ -29,6 +29,8 @@ plots. In your terminal enter:
 ###############################################################################
 
 GUI:
+-
+
 - generowanie dowolnych wykresów - w graph_data zamienić fitness_data np na plot_data
 ktory bedzie dictem w formie: { 'nazwa_wykresu':[wartosci, argumenty] }
 - scrollbar przy wyswietlaniu wykresu Gantta, zeby na wiekszych wykresach bylo cos widac
