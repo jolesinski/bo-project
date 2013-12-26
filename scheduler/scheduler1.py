@@ -1,7 +1,5 @@
 import numpy.random as random
-import pickle
-import none
-import scheduler2.RandomSolution as RandomSolution
+from scheduler.scheduler2 import RandomSolution
 
 
 def Generate(self, taskStrct=None):
