@@ -3,6 +3,55 @@ import pickle
 from . import graph_mod
 from PyQt4 import QtGui, QtCore
 
+class DataMainWindow(QtGui.QWidget):
+    def __init__(self):
+        super().__init__()
+
+        self.initUI()
+
+
+    def initUI(self):
+
+        proc_label = QtGui.QLabel('Quantity of processors:')
+        task_label = QtGui.QLabel('Quantity of tasks:')
+        mutop_label = QtGui.QLabel('Mutation operator version:')
+        xop_label = QtGui.QLabel('Crossover operator version:')
+
+        proc_edit = QtGui.QLineEdit()
+        task_edit = QtGui.QLineEdit()
+
+        proc_edit.setText('4')
+        task_edit.setText('20')
+
+        self.mutop_combo = QtGui.QComboBox()
+        self.mutop_combo.addItem("Version 1")
+        self.mutop_combo.addItem("Version 2")
+
+        self.xop_combo = QtGui.QComboBox()
+        self.xop_combo.addItem("Version 1")
+        self.xop_combo.addItem("Version 2")
+
+        self.button = QtGui.QPushButton('Generate')
+
+
+        grid = QtGui.QGridLayout()
+        grid.setSpacing(10)
+
+        grid.addWidget( proc_label, 0, 0)
+        grid.addWidget( task_label, 2, 0)
+        grid.addWidget( mutop_label, 0, 1)
+        grid.addWidget( xop_label, 0, 2)
+        grid.addWidget( proc_edit, 1, 0)
+        grid.addWidget( task_edit, 3, 0)
+        grid.addWidget( self.mutop_combo, 1, 1)
+        grid.addWidget( self.xop_combo, 1, 2)
+        grid.addWidget( self.button, 3, 2)
+
+        self.setLayout(grid)
+
+        self.setFixedSize(450, 150)
+        self.show()
+
 
 
 class DataAnalysis(QtGui.QWidget):
@@ -11,6 +60,7 @@ class DataAnalysis(QtGui.QWidget):
         super().__init__()
 
         self.initUI()
+
 
     def initUI(self):
 
