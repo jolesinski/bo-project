@@ -17,11 +17,11 @@ class DataMainWindow(QtGui.QWidget):
         mutop_label = QtGui.QLabel('Mutation operator version:')
         xop_label = QtGui.QLabel('Crossover operator version:')
 
-        proc_edit = QtGui.QLineEdit()
-        task_edit = QtGui.QLineEdit()
+        self.proc_edit = QtGui.QLineEdit()
+        self.task_edit = QtGui.QLineEdit()
 
-        proc_edit.setText('4')
-        task_edit.setText('20')
+        self.proc_edit.setText('4')
+        self.task_edit.setText('20')
 
         self.mutop_combo = QtGui.QComboBox()
         self.mutop_combo.addItem("Version 1")
@@ -32,6 +32,7 @@ class DataMainWindow(QtGui.QWidget):
         self.xop_combo.addItem("Version 2")
 
         self.button = QtGui.QPushButton('Generate')
+        self.button.clicked.connect(self.generate_problem)
 
 
         grid = QtGui.QGridLayout()
@@ -41,8 +42,8 @@ class DataMainWindow(QtGui.QWidget):
         grid.addWidget( task_label, 2, 0)
         grid.addWidget( mutop_label, 0, 1)
         grid.addWidget( xop_label, 0, 2)
-        grid.addWidget( proc_edit, 1, 0)
-        grid.addWidget( task_edit, 3, 0)
+        grid.addWidget( self.proc_edit, 1, 0)
+        grid.addWidget( self.task_edit, 3, 0)
         grid.addWidget( self.mutop_combo, 1, 1)
         grid.addWidget( self.xop_combo, 1, 2)
         grid.addWidget( self.button, 3, 2)
@@ -51,6 +52,14 @@ class DataMainWindow(QtGui.QWidget):
 
         self.setFixedSize(450, 150)
         self.show()
+
+    def generate_problem(self):
+        proc_num = int(self.proc_edit.displayText())
+        task_num = int(self.task_edit.displayText())
+
+        mutop_operator = self.mutop_combo.currentIndex()
+        xop_operator = self.xop_combo.currentIndex()
+
 
 
 
@@ -69,7 +78,6 @@ class DataAnalysis(QtGui.QWidget):
         self.cb2 = QtGui.QCheckBox('Fitness function and median')
 
         self.button = QtGui.QPushButton('Generate')
-
         self.button.clicked.connect(self.generate_plots)
 
         vboxlayout = QtGui.QVBoxLayout( )
@@ -91,6 +99,8 @@ class DataAnalysis(QtGui.QWidget):
         self.solGraphDialog = graph_mod.SolGraph(graph_data)
 
         self.show()
+
+
     def generate_plots(self):
         if self.cb1.checkState() == QtCore.Qt.Checked:
             self.solGraphDialog.create()
