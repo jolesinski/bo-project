@@ -1,6 +1,11 @@
 import sys, os
 import pickle
 from . import graph_mod
+
+from  scheduler.Scheduler import Scheduler
+from  scheduler.Task import Problem
+
+
 from PyQt4 import QtGui, QtCore
 
 class DataMainWindow(QtGui.QWidget):
@@ -11,17 +16,29 @@ class DataMainWindow(QtGui.QWidget):
 
 
     def initUI(self):
+        self.ready_to_solve = False
 
+        self.DataAnalysisDialog = DataAnalysis()
+
+        sol_label = QtGui.QLabel('Initial problem parameters')
         proc_label = QtGui.QLabel('Quantity of processors:')
         task_label = QtGui.QLabel('Quantity of tasks:')
+
+        alg_label = QtGui.QLabel('Algorithm parameters')
+        iter_label = QtGui.QLabel('Number of iterations:')
         mutop_label = QtGui.QLabel('Mutation operator version:')
         xop_label = QtGui.QLabel('Crossover operator version:')
 
         self.proc_edit = QtGui.QLineEdit()
         self.task_edit = QtGui.QLineEdit()
-
-        self.proc_edit.setText('4')
+        self.proc_edit.setMaximumWidth(50)
+        self.task_edit.setMaximumWidth(50)
+        self.proc_edit.setText('10')
         self.task_edit.setText('20')
+
+        self.iter_edit = QtGui.QLineEdit()
+        self.iter_edit.setMaximumWidth(50)
+        self.iter_edit.setText('5000')
 
         self.mutop_combo = QtGui.QComboBox()
         self.mutop_combo.addItem("Version 1")
@@ -31,34 +48,78 @@ class DataMainWindow(QtGui.QWidget):
         self.xop_combo.addItem("Version 1")
         self.xop_combo.addItem("Version 2")
 
-        self.button = QtGui.QPushButton('Generate')
-        self.button.clicked.connect(self.generate_problem)
+        self.buttonpr = QtGui.QPushButton('Generate')
+        self.buttonpr.clicked.connect(self.generate_problem)
 
+        self.buttonsol = QtGui.QPushButton('Solve')
+        self.buttonsol.clicked.connect(self.solve_problem)
+
+        self.statusBar = QtGui.QLabel('Ready')
 
         grid = QtGui.QGridLayout()
-        grid.setSpacing(10)
+        grid.setSpacing(5)
 
-        grid.addWidget( proc_label, 0, 0)
-        grid.addWidget( task_label, 2, 0)
-        grid.addWidget( mutop_label, 0, 1)
-        grid.addWidget( xop_label, 0, 2)
-        grid.addWidget( self.proc_edit, 1, 0)
-        grid.addWidget( self.task_edit, 3, 0)
-        grid.addWidget( self.mutop_combo, 1, 1)
-        grid.addWidget( self.xop_combo, 1, 2)
-        grid.addWidget( self.button, 3, 2)
+        grid.addWidget( sol_label, 0, 0)
+        grid.addWidget( proc_label, 1, 0)
+        grid.addWidget( task_label, 3, 0)
+
+        grid.addWidget( mutop_label, 1, 2)
+        grid.addWidget( xop_label, 1, 3)
+
+
+        grid.addWidget( self.proc_edit, 2, 0)
+        grid.addWidget( self.task_edit, 4, 0)
+
+        grid.addWidget( alg_label, 0, 2)
+        grid.addWidget( iter_label, 3, 2)
+        grid.addWidget( self.iter_edit, 4, 2)
+        grid.addWidget( self.mutop_combo, 2, 2)
+        grid.addWidget( self.xop_combo, 2, 3)
+        grid.addWidget( self.buttonpr, 5, 0)
+        grid.addWidget( self.buttonsol, 5, 2)
+
+        grid.addWidget( self.statusBar, 6, 0, 1, 4)
 
         self.setLayout(grid)
 
-        self.setFixedSize(450, 150)
+        self.setFixedSize(600, 250)
         self.show()
 
     def generate_problem(self):
         proc_num = int(self.proc_edit.displayText())
         task_num = int(self.task_edit.displayText())
 
-        mutop_operator = self.mutop_combo.currentIndex()
-        xop_operator = self.xop_combo.currentIndex()
+        self.statusBar.setText('Generating problem..')
+        prob = Problem.Random( proc_num, task_num)
+
+        self.statusBar.setText('Saving data..')
+        prob.Save()
+
+        self.ready_to_solve = True
+        self.statusBar.setText('Ready to solve!')
+
+    def solve_problem(self):
+        if self.ready_to_solve:
+            mutop_operator = self.mutop_combo.currentIndex()
+            xop_operator = self.xop_combo.currentIndex()
+
+            self.statusBar.setText('Loading problem data...')
+            prob = Problem.Load()
+
+            self.statusBar.setText('Initializing scheduler...')
+            sched = Scheduler(20, prob)
+
+            self.statusBar.setText('Solving...')
+            iter = int(self.iter_edit.displayText())
+            sched.solution = sched.Solve(iterations = iter)
+
+            self.statusBar.setText('Saving...')
+            sched.SaveGraphData()
+
+            self.statusBar.setText('Calling graph gui...')
+            self.DataAnalysisDialog.create()
+            self.DataAnalysisDialog.show()
+            self.statusBar.setText('Ready')
 
 
 
@@ -118,6 +179,3 @@ def main():
     ex = DataAnalysis()
     sys.exit(app.exec_())
 
-
-if __name__ == '__main__':
-    main()

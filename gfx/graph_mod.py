@@ -348,7 +348,7 @@ class SolGraph(Graph):
 
         cmax_txt = 'Cmax: ' + str(self.x_limit - 5)
         graph.annotate(cmax_txt,
-                            xy=(self.x_limit - 20, height),
+                            xy=(self.x_limit - 5, height),
                             textcoords='data',
                             color='r',
                             weight='bold',
