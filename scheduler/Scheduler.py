@@ -7,7 +7,7 @@ class Scheduler:
     from scheduler.scheduler1 import MutateQ, MutateA, GoalFunct, GoalFunctPop
     from scheduler.scheduler2 import LoadInputData, SaveGraphData, RandomSolution
     from scheduler.scheduler2 import RandomPopulation, Fitness, Selection
-    from scheduler.scheduler2 import Mutate, Cross
+    from scheduler.scheduler2 import Mutate, Cross, setSelectionParams
 
 
     def __init__(self, popSize, problem = Problem.Random()):
@@ -19,6 +19,8 @@ class Scheduler:
         
         self.solution = self.RandomSolution()
         self.population = self.GeneratePopulation(popSize)
+        
+        self.setSelectionParams()        
         
         '''log data from solver'''
         self.logFitness = []
@@ -46,7 +48,9 @@ class Scheduler:
         return t >= Scheduler.MaxIterations
 
     def evolve(self, population):
-        return self.Selection(population,4, 0.5)
+        return self.Selection(population, 
+                              self.parentsInNewPop*self.popSize, 
+                              self.mutationProb)
         
     def bestFit(self, population, rating):
         maxIndex = min(enumerate(rating),key=lambda x: x[1])[0]
@@ -54,7 +58,7 @@ class Scheduler:
         
     def logData(self, population, rating, t):
         self.logFitness.append(rating)
-        print(t)
+#        print(t)
     
     #EA alg helper functions
     def Solve(self, iterations = 100):
@@ -75,10 +79,9 @@ class Scheduler:
                 self.population = evolve(self.population)
                 rating = assess(self.population)
                 self.logData(self.population, rating, t)
-            return bestFit(self.population, rating)
+            return (bestFit(self.population, rating), t)
             
-            
-        self.solution = EvolutionaryAlgorithm();        
+        (self.solution, self.lastIters) = EvolutionaryAlgorithm();        
         return self.solution
 
     def stopCondition2(self, rating, t):
@@ -97,6 +100,7 @@ class Scheduler:
             
         if self.tStabilized > Scheduler.MaxIterStabilized:
             self.kicks = self.kicks + 1;
+            self.tStabilized = 0
             self.population = kick(self.population, self.popSize - 2)
             
         return self.kicks >= Scheduler.MaxKicks

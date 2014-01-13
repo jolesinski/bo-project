@@ -78,6 +78,10 @@ def Fitness(self, solution):
                     c[procId] = synchronizationTime
     return max(c)
         
+def setSelectionParams(self, parentsInNewPop = 0.2, mutationProb = 0.5):
+    self.parentsInNewPop = parentsInNewPop
+    self.mutationProb = mutationProb
+        
 def Selection(self, population, u, epsilon = 0.5):
     '''Sort population wrt fitness, take u for mutation, cross the rest'''
     population = sorted(population, key = lambda sol: self.Fitness(sol))
