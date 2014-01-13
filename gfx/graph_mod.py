@@ -346,5 +346,15 @@ class SolGraph(Graph):
 
         graph.grid(True)
 
+        cmax_txt = 'Cmax: ' + str(self.x_limit - 5)
+        graph.annotate(cmax_txt,
+                            xy=(self.x_limit - 20, height),
+                            textcoords='data',
+                            color='r',
+                            weight='bold',
+                            fontsize=14)
+        graph.axvline(x=( self.x_limit - 5),
+            color='r' )
+
         # refresh canvas
         self.canvas.draw()

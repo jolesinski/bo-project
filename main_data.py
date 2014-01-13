@@ -5,7 +5,7 @@ def main():
 
 
     app = data_mod.QtGui.QApplication(sys.argv)
-    ex = data_mod.DataMainWindow()
+    ex = data_mod.DataAnalysis()
     sys.exit(app.exec_())
 
 
