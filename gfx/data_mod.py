@@ -18,8 +18,6 @@ class DataMainWindow(QtGui.QWidget):
     def initUI(self):
         self.ready_to_solve = False
 
-        self.DataAnalysisDialog = DataAnalysis()
-
         sol_label = QtGui.QLabel('Initial problem parameters')
         proc_label = QtGui.QLabel('Quantity of processors:')
         task_label = QtGui.QLabel('Quantity of tasks:')
@@ -108,15 +106,17 @@ class DataMainWindow(QtGui.QWidget):
 
             self.statusBar.setText('Initializing scheduler...')
             sched = Scheduler(20, prob)
-
+            sched.setSelectionParams(4)
             self.statusBar.setText('Solving...')
-            iter = int(self.iter_edit.displayText())
-            sched.solution = sched.Solve(iterations = iter)
+            iter_num = int(self.iter_edit.displayText())
+
+            sched.solution = sched.Solve(iterations = iter_num)
 
             self.statusBar.setText('Saving...')
             sched.SaveGraphData()
 
             self.statusBar.setText('Calling graph gui...')
+            self.DataAnalysisDialog = DataAnalysis()
             self.DataAnalysisDialog.create()
             self.DataAnalysisDialog.show()
             self.statusBar.setText('Ready')
