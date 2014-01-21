@@ -18,7 +18,7 @@ def main():
     print('loading problem data...')
     prob = Problem.Load()    
     print('initializing scheduler...')
-    sched = Scheduler(20, prob)    
+    sched = Scheduler(20, prob)  
 #    print('generating random solution...')
 #    sched.solution = sched.RandomSolution()
     print('solving...')

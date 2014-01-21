@@ -79,7 +79,7 @@ def Fitness(self, solution):
     return max(c)
         
 def setSelectionParams(self, parentsInNewPop = 0.2, mutationProb = 0.5):
-    self.parentsInNewPop = parentsInNewPop
+    self.parentsInNewPop = int(parentsInNewPop * self.popSize)
     self.mutationProb = mutationProb
         
 def Selection(self, population, u, epsilon = 0.5):
