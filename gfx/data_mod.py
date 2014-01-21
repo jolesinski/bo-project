@@ -106,7 +106,7 @@ class DataMainWindow(QtGui.QWidget):
 
             self.statusBar.setText('Initializing scheduler...')
             sched = Scheduler(20, prob)
-            sched.setSelectionParams(4)
+
             self.statusBar.setText('Solving...')
             iter_num = int(self.iter_edit.displayText())
 

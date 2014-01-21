@@ -154,16 +154,16 @@ class FitGraph(Graph):
 
 
     def plot(self):
-        graph = self.figure.add_subplot(2, 1, 1)
-        graph.plot( self.popul_list, self.fitness_vals, '-')
+        graph = self.figure.add_subplot(1, 1, 1)
+        graph.plot( self.popul_list, self.fitness_vals, '-', label='Fitness func. value')
         graph.set_xlabel('population number')
         graph.set_ylabel('fitness function value')
 
-        graph = self.figure.add_subplot(2, 1, 2)
-        graph.plot( self.popul_list, self.fitness_med, '-')
+        graph.plot( self.popul_list, self.fitness_med, '-', label='Median of fitness func.')
         graph.set_xlabel('population number')
         graph.set_ylabel('median of fitness function\n values in each population')
 
+        legend = graph.legend(loc='upper right', shadow=True)
         self.canvas.draw()
 
 
