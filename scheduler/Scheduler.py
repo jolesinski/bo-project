@@ -49,7 +49,7 @@ class Scheduler:
 
     def evolve(self, population):
         return self.Selection(population,
-                              self.parentsInNewPop*self.popSize,
+                              self.parentsInNewPop,
                               self.mutationProb)
 
     def bestFit(self, population, rating):
