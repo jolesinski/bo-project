@@ -150,20 +150,22 @@ class FitGraph(Graph):
         fitness_data = self.data['fitness_data']
         self.fitness_vals = fitness_data[0]
         self.fitness_med = fitness_data[1]
+        # self.fitness_worst = fitness_data[2]
         self.popul_list = range(1, len(self.fitness_vals)  + 1 )
 
 
     def plot(self):
         graph = self.figure.add_subplot(1, 1, 1)
-        graph.plot( self.popul_list, self.fitness_vals, '-', label='Fitness func. value')
+        graph.plot( self.popul_list, self.fitness_vals, '-', label='Fitness func. best value', color='green')
         graph.set_xlabel('population number')
         graph.set_ylabel('fitness function value')
 
-        graph.plot( self.popul_list, self.fitness_med, '-', label='Median of fitness func.')
-        graph.set_xlabel('population number')
-        graph.set_ylabel('median of fitness function\n values in each population')
+        graph.plot( self.popul_list, self.fitness_med, '-', label='Median of fitness func.', color='grey')
+
+        # graph.plot( self.popul_list, self.fitness_worst, '-', label='Fitness func. worst value', color='red')
 
         legend = graph.legend(loc='upper right', shadow=True)
+
         self.canvas.draw()
 
 
@@ -355,6 +357,7 @@ class SolGraph(Graph):
                             fontsize=14)
         graph.axvline(x=( self.x_limit - 5),
             color='r' )
+
 
         # refresh canvas
         self.canvas.draw()

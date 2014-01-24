@@ -138,6 +138,8 @@ class DataAnalysis(QtGui.QWidget):
 
         self.cb2 = QtGui.QCheckBox('Fitness function and median')
 
+        # self.cb3 = QtGui.QCheckBox('Operators data')
+
         self.button = QtGui.QPushButton('Generate')
         self.button.clicked.connect(self.generate_plots)
 
@@ -145,6 +147,7 @@ class DataAnalysis(QtGui.QWidget):
 
         vboxlayout.addWidget(self.cb1)
         vboxlayout.addWidget(self.cb2)
+        # vboxlayout.addWidget(self.cb3)
         vboxlayout.addWidget(self.button)
 
         self.setLayout( vboxlayout )
@@ -156,8 +159,10 @@ class DataAnalysis(QtGui.QWidget):
         path = os.path.join(os.path.dirname(path), 'config/graph_data.pickle')
         with open(path, 'rb') as file:
             graph_data = pickle.load(file)
+
         self.fitGraphDialog = graph_mod.FitGraph(graph_data)
         self.solGraphDialog = graph_mod.SolGraph(graph_data)
+        # self.opGraphDialog = graph_mod.PopulationGraph(graph_data)
 
         self.show()
 
@@ -170,6 +175,10 @@ class DataAnalysis(QtGui.QWidget):
         if self.cb2.checkState() == QtCore.Qt.Checked:
             self.fitGraphDialog.create()
             self.fitGraphDialog.show()
+
+        # if self.cb3.checkState() == QtCore.Qt.Checked:
+            # self.opGraphDialog.create()
+            # self.opGraphDialog.show()
 
 
 def main():

@@ -29,16 +29,16 @@ plots. In your terminal enter:
 ###############################################################################
 
 GUI:
--
 
-- generowanie dowolnych wykresów - w graph_data zamienić fitness_data np na plot_data
-ktory bedzie dictem w formie: { 'nazwa_wykresu':[wartosci, argumenty] }
-- scrollbar przy wyswietlaniu wykresu Gantta, zeby na wiekszych wykresach bylo cos widac
-- przy wyświetlaniu rozwiazania zaznaczyc czas zakonczenia wszystkich zadan i 
-podpisac wartoscia, tak zeby sie dalo porownywac rozwiazania po wykresach
+- ???
+
 
 Solver:
-- 
+- dodanie operatorów
+- dane z operatorów(czas działania operatora, ilość wygenerowanych poprawnych
+    i niepoprawnych rozwiązań) !!! po dodaniu odkomentować linie 141, 150, 165, 179-181
+- dodanie jako trzeci element do wektora graph_data['fitness_data'] najgorszej
+    wartości funkcji celu (linia 153 pokazane jak) i odkomentować linie 153, 165
 
 ###############################################################################
 
