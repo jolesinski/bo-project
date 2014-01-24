@@ -1,1 +1,3 @@
 __pycache__/
+config/graph_data.pickle
+config/problem_data.pickle

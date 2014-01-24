@@ -58,8 +58,8 @@ class Scheduler:
 
     def logData(self, population, rating, t):
         self.logFitness.append(rating)
-        print(min(rating))
-        print(t)
+#        print(min(rating))
+#        print(t)
 
     #EA alg helper functions
     def Solve(self, iterations = 100):
@@ -104,5 +104,5 @@ class Scheduler:
             self.tStabilized = 0
             self.population = kick(self.population, self.popSize - 2)
 
-        return self.kicks >= Scheduler.MaxKicks
+        return t > Scheduler.MaxIterations or self.kicks >= Scheduler.MaxKicks
 

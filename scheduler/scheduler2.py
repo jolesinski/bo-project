@@ -23,6 +23,7 @@ def SaveGraphData(self):
     
     logBest = [min(fit) for fit in self.logFitness] 
     logMedian = [median(fit) for fit in self.logFitness]
+    logWorst = [max(fit) for fit in self.logFitness]
     
     path = os.path.dirname(__file__)
     path = os.path.join(os.path.dirname(path), 'config/graph_data.pickle')
@@ -32,7 +33,7 @@ def SaveGraphData(self):
         
     graphData['solution_data'] = self.solution
     graphData['task_data'] = {'task_num':self.numTasks,'proc_num':self.numProc,'timings':self.timings}
-    graphData['fitness_data'] = [logBest, logMedian]    
+    graphData['fitness_data'] = [logBest, logMedian, logWorst]    
     
     with open(path, mode='wb') as dFile:
         pickle.dump(graphData, dFile)
@@ -97,6 +98,9 @@ def Selection(self, population, u, epsilon = 0.5):
                 kids.append(self.Cross(parent, population[index+1]))
     parents.extend(kids)
     return parents
+    
+def IsFeasible(self, solution):
+    return True    
     
 def Mutate(self, parent, epsilon = 0.5):
     kid = parent.copy()
