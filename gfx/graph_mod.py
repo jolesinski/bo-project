@@ -103,8 +103,8 @@ class PopulationGraph(Graph):
 
         p1 = graph.bar(indent, mutation_means, width, color='#A8B214')
         p2 = graph.bar(indent, xover_means, width, color='#0B64B2')
-        graph.ylabel('#')
-        graph.yticks(np.arange(0,y_max,10))
+        graph.set_ylabel('#')
+        graph.set_yticks(np.arange(0,y_max,10))
         graph.legend( (p1[0], p2[0]), ('Mutation operator',
                                        'Crossover operator'),
                                     loc='upper left')
@@ -122,8 +122,8 @@ class PopulationGraph(Graph):
         if y_max % 10 == 0:
             y_max += 1
         graph2.bar(indent, duration_means, width, color='#FF4C43')
-        graph2.set_ylabel('time [sec]')
-        graph.xticks(ticks + width/2.,
+        graph2.set_xlabel('time [sec]')
+        graph.set_xticks(ticks + width/2.,
                 ('Acceptable \nsolutions',
                  'Acceptable \nsolutions',
                  'Unacceptable \nsolutions',
