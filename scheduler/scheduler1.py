@@ -267,7 +267,7 @@ def Cross5(self, parent1, parent2, similar = 0.3):
         randomKid = RandomSolution()
     return randomKid
     
-def Mutate2(self, parent, epsilon = 0.5, fill = 0.5, changeProb = 0.8):
+def Mutate_A(self, parent, epsilon = 0.5, fill = 0.5, changeProb = 0.8):
     kid = parent.copy()
     if random.rand() > epsilon:
         (i, j) = random.choice(range(len(parent)), 2, False)
@@ -289,6 +289,41 @@ def Mutate2(self, parent, epsilon = 0.5, fill = 0.5, changeProb = 0.8):
                     temp[j] &= 0
             else:
                 temp[j] |= 1    
+        kid[i] = (kid[i][0], temp)
+    #\assert(kid[i][1] != parent[i][1])
+    return kid
+    
+def Mutate_B(self, parent, epsilon = 0.5, fill = 0.5, changeProb = 0.8):
+    kid = parent.copy()
+    if random.rand() > epsilon:
+        (i, j) = random.choice(range(len(parent)), 2, False)
+        kid[i] = parent[j]
+        kid[j] = parent[i]
+    else:
+        i = random.randint(len(parent))
+        j = random.randint(self.numProc)
+        temp = kid[i][1].copy()
+        if sum(temp)< fill * self.numProc:
+            if random.rand() < changeProb:
+                while((temp[j]==1) and (sum(temp)!=self.numProc)):
+                    j = random.randint(self.numProc)
+                temp[j] |= 1
+            else:
+                temp[j] &= 0
+                if sum(temp) == 0:
+                    j = random.randint(self.numProc)
+                    temp[j] |= 1
+        else:
+            if random.rand() < changeProb:
+                temp[j] &= 0
+                if sum(temp) == 0:
+                    j = random.randint(self.numProc)
+                    temp[j] |= 1
+            else:
+                while((temp[j]==1) and (sum(temp)!=self.numProc)):
+                    j = random.randint(self.numProc)
+                temp[j] |= 1
+                
         kid[i] = (kid[i][0], temp)
     #\assert(kid[i][1] != parent[i][1])
     return kid
