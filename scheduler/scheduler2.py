@@ -26,14 +26,16 @@ def SaveGraphData(self):
     logMedian = [median(fit) for fit in self.logFitness]
     logWorst = [max(fit) for fit in self.logFitness]
     
-    path = os.path.dirname(__file__)
-    path = os.path.join(os.path.dirname(path), 'config/graph_data.pickle')
+    dirPath = os.path.dirname(__file__)
+    path = os.path.join(os.path.dirname(dirPath), 'config/graph_data.pickle')
 
     try:
         with open(path, mode='rb') as dFile:
             graphData = pickle.load(dFile)
     except IOError:
-        graphData = dict()
+        path2 = os.path.join(os.path.dirname(dirPath), 'config/palette_data.pickle')
+        with open(path2, mode='rb') as dFile:
+            graphData = pickle.load(dFile)
         
     graphData['solution_data'] = self.solution
     graphData['task_data'] = {'task_num':self.numTasks,'proc_num':self.numProc,'timings':self.timings}
