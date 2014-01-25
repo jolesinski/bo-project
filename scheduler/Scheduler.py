@@ -3,8 +3,10 @@ from scheduler.Task import Problem
 
 class Scheduler:
     '''Represents task scheduling process'''
-    from scheduler.scheduler1 import GeneratePopulation, Generate, Crossover
-    from scheduler.scheduler1 import MutateQ, MutateA, GoalFunct, GoalFunctPop
+    from scheduler.scheduler1 import GeneratePopulation, Generate
+    from scheduler.scheduler1 import GoalFunct, GoalFunctPop
+    from scheduler.scheduler1 import Mutate_A, Mutate_B, Mutate_C, Mutate_D
+    from scheduler.scheduler1 import Cross2, Cross3, Cross4, Cross5
     from scheduler.scheduler2 import LoadInputData, SaveGraphData, RandomSolution
     from scheduler.scheduler2 import RandomPopulation, Fitness, Selection
     from scheduler.scheduler2 import Mutate, Cross, setSelectionParams, SetOperators
@@ -26,8 +28,8 @@ class Scheduler:
         self.logFitness = []
         self.logPopulationData = []
 
-    MutationOperators = [MutateQ, MutateA]
-    CrossoverOperators = [Crossover]
+    MutationOperators = [Mutate_A, Mutate_B, Mutate_C, Mutate_D]
+    CrossoverOperators = [Cross2, Cross3, Cross4, Cross5]
 
 
     '''Params used in EvAlg'''
