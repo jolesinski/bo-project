@@ -119,8 +119,8 @@ def Selection(self, population, u, epsilon = 0.5):
                     logInfeasible[opType] += 1
             kids.append(child)                
 
-    popStats = {'mutation_op':[logFeasible[0], logInfeasible[0], execTime[0]],
-                'crossover_op':[logFeasible[1], logInfeasible[0], execTime[1]]}
+    popStats = {'mutation_op':[logFeasible[0], logInfeasible[0], logExecTime[0]],
+                'crossover_op':[logFeasible[1], logInfeasible[0], logExecTime[1]]}
     self.logPopulationData.append(popStats)
     
     parents.extend(kids)
