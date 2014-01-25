@@ -7,7 +7,7 @@ class Scheduler:
     from scheduler.scheduler1 import MutateQ, MutateA, GoalFunct, GoalFunctPop
     from scheduler.scheduler2 import LoadInputData, SaveGraphData, RandomSolution
     from scheduler.scheduler2 import RandomPopulation, Fitness, Selection
-    from scheduler.scheduler2 import Mutate, Cross, setSelectionParams
+    from scheduler.scheduler2 import Mutate, Cross, setSelectionParams, SetOperators
 
 
     def __init__(self, popSize, problem = Problem.Random()):

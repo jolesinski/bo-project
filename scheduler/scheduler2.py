@@ -161,5 +161,5 @@ def Cross(self, parent1, parent2):
     return kid1
     
     
-def SetOperators(mutationOp = -1, crossingOp = -1):
+def SetOperators(self, mutationOp = -1, crossingOp = -1):
     pass
