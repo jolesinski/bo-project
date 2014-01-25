@@ -159,3 +159,7 @@ def Cross(self, parent1, parent2):
         kid1[i] = (kid1[i][0], parent2[i][1])
         kid2[i] = (kid2[i][0], parent1[i][1])
     return kid1
+    
+    
+def SetOperators(mutationOp = -1, crossingOp = -1):
+    pass
