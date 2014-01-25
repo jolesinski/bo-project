@@ -60,7 +60,7 @@ class PopulationGraph(Graph):
     def init_data(self):
         population_data = self.data['population_data']
         pop_count = len(population_data)
-        print(pop_count)
+
         macc_sum = 0
         munacc_num =0
         mwork_time = 0
@@ -86,8 +86,6 @@ class PopulationGraph(Graph):
         self.avrg_mduration = round(mwork_time / pop_count)
         self.avrg_cduration = round(cwork_time / pop_count)
 
-        print(self.avrg_macc)
-        print(macc_sum)
 
     def plot(self):
         graph = self.figure.add_subplot(1, 1, 1)
@@ -106,13 +104,15 @@ class PopulationGraph(Graph):
         p1 = graph.bar(indent, mutation_means, width, color='#A8B214')
         p2 = graph.bar(indent, xover_means, width, color='#0B64B2')
         graph.set_ylabel('#')
-        graph.set_yticks(np.arange(0,y_max,10))
+        graph.set_ylim(0, y_max)
+        y_tick = max(1, int(0.05*y_max))
+        graph.set_yticks(range(0, y_max, y_tick))
         graph.legend( (p1[0], p2[0]), ('Mutation operator',
                                        'Crossover operator'),
                                     loc='upper left')
 
         graph2 = graph.twinx()
-        indent = [2.5, 3]
+        indent = [2.7, 3.4]
         ticks.extend(indent)
         ticks = np.array(ticks)
         indent = np.array(indent)
@@ -125,14 +125,17 @@ class PopulationGraph(Graph):
             y_max += 1
         graph2.bar(indent, duration_means, width, color='#FF4C43')
         graph2.set_xlabel('time [sec]')
-        graph.set_xticks(ticks + width/2.,
-                ('Acceptable \nsolutions',
-                 'Acceptable \nsolutions',
-                 'Unacceptable \nsolutions',
-                 'Unacceptable \nsolutions',
+        graph.set_xlim(0,4)
+        graph.set_xticks(ticks + width/2.)
+        graph.set_xticklabels(('Avrg. \nAcceptable \nsolutions',
+                 'Avrg. \nAcceptable \nsolutions',
+                 'Avrg. \nUnacceptable \nsolutions',
+                 'Avrg. \nUnacceptable \nsolutions',
                  'Mutation operator\n average worktime',
-                 'Crossover operator\n average worktime') )
-        graph2.set_yticks(np.arange(0,y_max,10))
+                 'Crossover operator\n average worktime'))
+        graph2.set_ylim(0, y_max)
+        y_tick = max(1, int(0.05*y_max))
+        graph2.set_yticks(range(0, y_max, y_tick))
 
 
         self.canvas.draw()

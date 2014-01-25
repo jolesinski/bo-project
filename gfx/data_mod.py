@@ -35,7 +35,7 @@ class DataMainWindow(QtGui.QWidget):
         self.task_edit = QtGui.QLineEdit()
         self.proc_edit.setMaximumWidth(50)
         self.task_edit.setMaximumWidth(50)
-        self.proc_edit.setText('10')
+        self.proc_edit.setText('2')
         self.task_edit.setText('20')
 
         self.iter_edit = QtGui.QLineEdit()
