@@ -30,15 +30,14 @@ plots. In your terminal enter:
 
 GUI:
 
-- ???
-
+- zadawanie parametrów algorytmu - udział rodziców w następnej
+populacji (jako float), prawdopodobieństwo wyboru operatora krzyżowania
+obydwa parametry zadawane przez sched.setSelectionParams(udział, prawdop)
+- możliwość uśrednienia wyników
+- żeby się dało dwa wykresy porównać dla tego samego problemu, różnych opków
 
 Solver:
 - dodanie operatorów
-- dane z operatorów(czas działania operatora, ilość wygenerowanych poprawnych
-    i niepoprawnych rozwiązań) !!! po dodaniu odkomentować linie 141, 150, 165, 179-181
-- dodanie jako trzeci element do wektora graph_data['fitness_data'] najgorszej
-    wartości funkcji celu (linia 153 pokazane jak) i odkomentować linie 153, 165
 
 ###############################################################################
 

@@ -1,6 +1,7 @@
 import numpy.random as random
 import os
 import pickle
+import time
 
 def LoadInputData(self, problem):
      '''Loading scheduler input data
@@ -93,18 +94,24 @@ def Selection(self, population, u, epsilon = 0.5):
     #logging for 'population_data'
     logFeasible = [0,0]
     logInfeasible = [0,0]
+    logExecTime = [0,0]
     opType = -1
     
     for index, parent in enumerate(population):
         if len(kids) < len(population) - u:
             while True: #do-while loop         
-                if random.rand() > epsilon:                                
+                if random.rand() > epsilon:       
+                    t = time.time()
                     child = self.Mutate(parent, 0.5)                
+                    execTime = time.time() - t
                     opType = 0
                 else:                
+                    t = time.time()
                     child = self.Cross(parent, population[index+1])                
+                    execTime = time.time() - t
                     opType = 1       
                     
+                logExecTime[opType] += execTime                    
                 if IsFeasible(child): #stop condition                    
                     logFeasible[opType] += 1
                     break
@@ -112,8 +119,8 @@ def Selection(self, population, u, epsilon = 0.5):
                     logInfeasible[opType] += 1
             kids.append(child)                
 
-    popStats = {'mutation_op':[logFeasible[0], logInfeasible[0], 0],
-                'crossover_op':[logFeasible[1], logInfeasible[0], 0]}
+    popStats = {'mutation_op':[logFeasible[0], logInfeasible[0], execTime[0]],
+                'crossover_op':[logFeasible[1], logInfeasible[0], execTime[1]]}
     self.logPopulationData.append(popStats)
     
     parents.extend(kids)
