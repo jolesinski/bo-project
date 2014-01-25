@@ -29,8 +29,11 @@ def SaveGraphData(self):
     path = os.path.dirname(__file__)
     path = os.path.join(os.path.dirname(path), 'config/graph_data.pickle')
 
-    with open(path, mode='rb') as dFile:
-        graphData = pickle.load(dFile)
+    try:
+        with open(path, mode='rb') as dFile:
+            graphData = pickle.load(dFile)
+    except IOError:
+        graphData = dict()
         
     graphData['solution_data'] = self.solution
     graphData['task_data'] = {'task_num':self.numTasks,'proc_num':self.numProc,'timings':self.timings}
