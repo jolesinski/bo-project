@@ -60,7 +60,7 @@ class PopulationGraph(Graph):
     def init_data(self):
         population_data = self.data['population_data']
         pop_count = len(population_data)
-
+        print(pop_count)
         macc_sum = 0
         munacc_num =0
         mwork_time = 0
@@ -68,24 +68,26 @@ class PopulationGraph(Graph):
         cunacc_num =0
         cwork_time = 0
         for population in population_data:
-            macc_sum = population['mutation_op'][0]
-            cacc_sum = population['crossover_op'][0]
+            macc_sum += population['mutation_op'][0]
+            cacc_sum += population['crossover_op'][0]
 
-            munacc_sum = population['mutation_op'][1]
-            cunacc_sum = population['crossover_op'][1]
+            munacc_num += population['mutation_op'][1]
+            cunacc_num += population['crossover_op'][1]
 
-            mwork_time = population['mutation_op'][2]
-            cwork_time = population['crossover_op'][2]
+            mwork_time += population['mutation_op'][2]
+            cwork_time += population['crossover_op'][2]
 
         self.avrg_macc = round(macc_sum / pop_count)
         self.avrg_cacc = round(cacc_sum / pop_count)
 
-        self.avrg_munacc = round(munacc_sum / pop_count)
-        self.avrg_cunacc = round(cunacc_sum / pop_count)
+        self.avrg_munacc = round(munacc_num / pop_count)
+        self.avrg_cunacc = round(cunacc_num / pop_count)
 
         self.avrg_mduration = round(mwork_time / pop_count)
         self.avrg_cduration = round(cwork_time / pop_count)
 
+        print(self.avrg_macc)
+        print(macc_sum)
 
     def plot(self):
         graph = self.figure.add_subplot(1, 1, 1)
