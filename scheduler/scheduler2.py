@@ -33,7 +33,8 @@ def SaveGraphData(self):
         
     graphData['solution_data'] = self.solution
     graphData['task_data'] = {'task_num':self.numTasks,'proc_num':self.numProc,'timings':self.timings}
-    graphData['fitness_data'] = [logBest, logMedian, logWorst]    
+    graphData['fitness_data'] = [logBest, logMedian, logWorst]   
+    graphData['population_data'] = self.logPopulationData
     
     with open(path, mode='wb') as dFile:
         pickle.dump(graphData, dFile)
@@ -89,17 +90,36 @@ def Selection(self, population, u, epsilon = 0.5):
     parents = population[:u]
     kids = []
     
+    #logging for 'population_data'
+    logFeasible = [0,0]
+    logInfeasible = [0,0]
+    opType = -1
     
     for index, parent in enumerate(population):
-        if len(kids) < len(population) - u: 
-            if random.rand() > epsilon:
-                kids.append(self.Mutate(parent, 0.5))
-            else:
-                kids.append(self.Cross(parent, population[index+1]))
+        if len(kids) < len(population) - u:
+            while True: #do-while loop         
+                if random.rand() > epsilon:                                
+                    child = self.Mutate(parent, 0.5)                
+                    opType = 0
+                else:                
+                    child = self.Cross(parent, population[index+1])                
+                    opType = 1       
+                    
+                if IsFeasible(child): #stop condition                    
+                    logFeasible[opType] += 1
+                    break
+                else:
+                    logInfeasible[opType] += 1
+            kids.append(child)                
+
+    popStats = {'mutation_op':[logFeasible[0], logInfeasible[0], 0],
+                'crossover_op':[logFeasible[1], logInfeasible[0], 0]}
+    self.logPopulationData.append(popStats)
+    
     parents.extend(kids)
     return parents
     
-def IsFeasible(self, solution):
+def IsFeasible(solution):
     return True    
     
 def Mutate(self, parent, epsilon = 0.5):

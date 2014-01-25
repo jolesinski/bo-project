@@ -24,6 +24,7 @@ class Scheduler:
 
         '''log data from solver'''
         self.logFitness = []
+        self.logPopulationData = []
 
     MutationOperators = [MutateQ, MutateA]
     CrossoverOperators = [Crossover]

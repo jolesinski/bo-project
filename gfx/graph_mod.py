@@ -150,7 +150,7 @@ class FitGraph(Graph):
         fitness_data = self.data['fitness_data']
         self.fitness_vals = fitness_data[0]
         self.fitness_med = fitness_data[1]
-        # self.fitness_worst = fitness_data[2]
+        self.fitness_worst = fitness_data[2]
         self.popul_list = range(1, len(self.fitness_vals)  + 1 )
 
 
@@ -162,7 +162,7 @@ class FitGraph(Graph):
 
         graph.plot( self.popul_list, self.fitness_med, '-', label='Median of fitness func.', color='grey')
 
-        # graph.plot( self.popul_list, self.fitness_worst, '-', label='Fitness func. worst value', color='red')
+        graph.plot( self.popul_list, self.fitness_worst, '-', label='Fitness func. worst value', color='red')
 
         legend = graph.legend(loc='upper right', shadow=True)
 
