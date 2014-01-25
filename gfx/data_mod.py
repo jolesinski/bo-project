@@ -26,6 +26,10 @@ class DataMainWindow(QtGui.QWidget):
         iter_label = QtGui.QLabel('Number of iterations:')
         mutop_label = QtGui.QLabel('Mutation operator version:')
         xop_label = QtGui.QLabel('Crossover operator version:')
+        test_label = QtGui.QLabel('Number of tests:')
+        crossp_label = QtGui.QLabel('Crossover op. usage probability:')
+        parents_label = QtGui.QLabel('Fraction of old population in new:')
+
 
         self.proc_edit = QtGui.QLineEdit()
         self.task_edit = QtGui.QLineEdit()
@@ -37,6 +41,21 @@ class DataMainWindow(QtGui.QWidget):
         self.iter_edit = QtGui.QLineEdit()
         self.iter_edit.setMaximumWidth(50)
         self.iter_edit.setText('5000')
+
+        self.test_edit = QtGui.QLineEdit()
+        self.test_edit.setMaximumWidth(50)
+        self.test_edit.setText('1')
+
+        self.crossp_edit = QtGui.QLineEdit()
+        self.crossp_edit.setMaximumWidth(50)
+        self.crossp_edit.setText('0.5')
+
+        self.parents_edit = QtGui.QLineEdit()
+        self.parents_edit.setMaximumWidth(50)
+        self.parents_edit.setText('0.2')
+
+
+
 
         self.mutop_combo = QtGui.QComboBox()
         self.mutop_combo.addItem("Version 1")
@@ -70,13 +89,19 @@ class DataMainWindow(QtGui.QWidget):
 
         grid.addWidget( alg_label, 0, 2)
         grid.addWidget( iter_label, 3, 2)
+        grid.addWidget( test_label, 3, 3)
+        grid.addWidget( crossp_label, 5, 3)
+        grid.addWidget( parents_label, 5, 2)
         grid.addWidget( self.iter_edit, 4, 2)
+        grid.addWidget( self.parents_edit, 6, 2)
+        grid.addWidget( self.crossp_edit, 6, 3)
+        grid.addWidget( self.test_edit, 4, 3)
         grid.addWidget( self.mutop_combo, 2, 2)
         grid.addWidget( self.xop_combo, 2, 3)
         grid.addWidget( self.buttonpr, 5, 0)
-        grid.addWidget( self.buttonsol, 5, 2)
+        grid.addWidget( self.buttonsol, 7, 2)
 
-        grid.addWidget( self.statusBar, 6, 0, 1, 4)
+        grid.addWidget( self.statusBar, 8, 0, 1, 4)
 
         self.setLayout(grid)
 
@@ -108,8 +133,18 @@ class DataMainWindow(QtGui.QWidget):
             sched = Scheduler(20, prob)
 
             self.statusBar.setText('Solving...')
-            iter_num = int(self.iter_edit.displayText())
 
+            iter_num = int(self.iter_edit.displayText())
+            test_q = int(self.iter_edit.displayText())
+            cross_pr = float(self.crossp_edit.displayText())
+            parent_f = float(self.parents_edit.displayText())
+
+            sched.SetOperators(mutationOp = mutop_operator,
+                               crossingOp = xop_operator)
+            sched.setSelectionParams(parentsInNewPop = parent_f,
+                                     mutationProb = cross_pr)
+
+            sched.Trials = int(self.test_edit.displayText())
             sched.solution = sched.Solve(iterations = iter_num)
 
             self.statusBar.setText('Saving...')
