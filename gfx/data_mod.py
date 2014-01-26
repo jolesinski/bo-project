@@ -60,10 +60,16 @@ class DataMainWindow(QtGui.QWidget):
         self.mutop_combo = QtGui.QComboBox()
         self.mutop_combo.addItem("Version 1")
         self.mutop_combo.addItem("Version 2")
+        self.mutop_combo.addItem("Version 3")
+        self.mutop_combo.addItem("Version 4")
+        self.mutop_combo.addItem("Version 5")
 
         self.xop_combo = QtGui.QComboBox()
         self.xop_combo.addItem("Version 1")
         self.xop_combo.addItem("Version 2")
+        self.xop_combo.addItem("Version 3")
+        self.xop_combo.addItem("Version 4")
+        self.xop_combo.addItem("Version 5")
 
         self.buttonpr = QtGui.QPushButton('Generate')
         self.buttonpr.clicked.connect(self.generate_problem)

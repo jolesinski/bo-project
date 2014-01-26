@@ -60,6 +60,7 @@ class PopulationGraph(Graph):
     def init_data(self):
         population_data = self.data['population_data']
         pop_count = len(population_data)
+        print(pop_count)
 
         macc_sum = 0
         munacc_num =0
@@ -76,9 +77,12 @@ class PopulationGraph(Graph):
 
             mwork_time += population['mutation_op'][2]
             cwork_time += population['crossover_op'][2]
-
+        print(macc_sum)
+        print(cacc_sum)
         self.avrg_macc = round(macc_sum / pop_count)
         self.avrg_cacc = round(cacc_sum / pop_count)
+        print(self.avrg_macc)
+        print(self.avrg_cacc)
 
         self.avrg_munacc = round(munacc_num / pop_count)
         self.avrg_cunacc = round(cunacc_num / pop_count)
@@ -99,7 +103,7 @@ class PopulationGraph(Graph):
         if y_max % 10 == 0:
             y_max += 1
         mutation_means = (self.avrg_macc, 0, self.avrg_munacc, 0)
-        xover_means = (0, self.avrg_macc, 0, self.avrg_munacc)
+        xover_means = (0, self.avrg_cacc, 0, self.avrg_cunacc)
 
         p1 = graph.bar(indent, mutation_means, width, color='#A8B214')
         p2 = graph.bar(indent, xover_means, width, color='#0B64B2')
