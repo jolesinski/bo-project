@@ -114,7 +114,7 @@ def Selection(self, population, u, epsilon = 0.5):
                     t = time.time()
                     child = self.Cross(parent, population[index+1])                
                     execTime = time.time() - t
-                    opType = 1       
+                    opType = 1
                     
                 logExecTime[opType] += execTime                    
                 if IsFeasible(child): #stop condition                    
@@ -122,6 +122,7 @@ def Selection(self, population, u, epsilon = 0.5):
                     break
                 else:
                     logInfeasible[opType] += 1
+                    
             kids.append(child)                
 
     popStats = {'mutation_op':[logFeasible[0], logInfeasible[0], logExecTime[0]],
@@ -134,7 +135,7 @@ def Selection(self, population, u, epsilon = 0.5):
 def IsFeasible(solution):
     return True    
     
-def Mutate(self, parent, epsilon = 0.5):
+def Mutate1(self, parent, epsilon = 0.5):
     kid = parent.copy()
     if random.rand() > epsilon:
         (i, j) = random.choice(range(len(parent)), 2, False)
@@ -152,7 +153,7 @@ def Mutate(self, parent, epsilon = 0.5):
         #\assert(kid[i][1] != parent[i][1])
     return kid
     
-def Cross(self, parent1, parent2):
+def Cross1(self, parent1, parent2):
     kid1 = parent1.copy()
     kid2 = parent2.copy()   
     for i in range(self.numTasks):
@@ -160,6 +161,3 @@ def Cross(self, parent1, parent2):
         kid2[i] = (kid2[i][0], parent1[i][1])
     return kid1
     
-    
-def SetOperators(self, mutationOp = -1, crossingOp = -1):
-    pass

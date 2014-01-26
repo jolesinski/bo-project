@@ -9,7 +9,7 @@ class Scheduler:
     from scheduler.scheduler1 import Cross2, Cross3, Cross4, Cross5
     from scheduler.scheduler2 import LoadInputData, SaveGraphData, RandomSolution
     from scheduler.scheduler2 import RandomPopulation, Fitness, Selection
-    from scheduler.scheduler2 import Mutate, Cross, setSelectionParams, SetOperators
+    from scheduler.scheduler2 import Mutate1, Cross1, setSelectionParams
 
 
     def __init__(self, popSize, problem = Problem.Random()):
@@ -27,9 +27,10 @@ class Scheduler:
         '''log data from solver'''
         self.logFitness = []
         self.logPopulationData = []
-
-    MutationOperators = [Mutate_A, Mutate_B, Mutate_C, Mutate_D]
-    CrossoverOperators = [Cross2, Cross3, Cross4, Cross5]
+        self.MutationOperators = [self.Mutate1, self.Mutate_A, self.Mutate_B, 
+                                  self.Mutate_C, self.Mutate_D]
+        self.CrossoverOperators = [self.Cross1, self.Cross2, self.Cross3, 
+                                   self.Cross4, self.Cross5]
 
 
     '''Params used in EvAlg'''
@@ -109,3 +110,7 @@ class Scheduler:
 
         return t > Scheduler.MaxIterations or self.kicks >= Scheduler.MaxKicks
 
+    
+    def SetOperators(self, mutationOp = -1, crossingOp = -1):
+        self.Mutate = self.MutationOperators[mutationOp]
+        self.Cross = self.CrossoverOperators[crossingOp]
