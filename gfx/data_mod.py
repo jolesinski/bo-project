@@ -16,7 +16,7 @@ class DataMainWindow(QtGui.QWidget):
 
 
     def initUI(self):
-        self.ready_to_solve = False
+        self.new = False
 
         sol_label = QtGui.QLabel('Initial problem parameters')
         proc_label = QtGui.QLabel('Quantity of processors:')
@@ -124,11 +124,15 @@ class DataMainWindow(QtGui.QWidget):
         self.statusBar.setText('Saving data..')
         prob.Save()
 
-        self.ready_to_solve = True
+        self.new = True
         self.statusBar.setText('Ready to solve!')
 
     def solve_problem(self):
-        if self.ready_to_solve:
+        ready_to_solve = QtGui.QMessageBox.Yes
+        if not self.new:
+            ready_to_solve = QtGui.QMessageBox.question(self,  'Solver',
+                        'You are going to generate solution for the previously generated problem, are you sure?',  QtGui.QMessageBox.Yes | QtGui.QMessageBox.No, QtGui.QMessageBox.No)
+        if ready_to_solve == QtGui.QMessageBox.Yes :
             mutop_operator = self.mutop_combo.currentIndex()
             xop_operator = self.xop_combo.currentIndex()
 
@@ -160,7 +164,7 @@ class DataMainWindow(QtGui.QWidget):
             self.DataAnalysisDialog = DataAnalysis()
             self.DataAnalysisDialog.create()
             self.DataAnalysisDialog.show()
-            self.statusBar.setText('Ready')
+            self.statusBar.setText('Solved!')
 
 
 
