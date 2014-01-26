@@ -125,7 +125,7 @@ def Cross4(self, parent1, parent2):
     for i in range(self.numTasks):
         for j in range(self.numProc):
             kid1[i][1][j] = int(not(kid1[i][1][j] & kid2[i][1][j]))
-        kid1[i] = (orderedTasks[i]+1, kid1[i][1])
+        kid1[i] = (orderedTasks[i], kid1[i][1])
     return kid1
     
 def Cross5(self, parent1, parent2, similar = 0.5):
