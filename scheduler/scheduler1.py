@@ -228,11 +228,11 @@ def Mutate_C(self, parent, epsilon = 0.5, changeProb = 0.8):
             if random.rand() < changeProb:
                 temp[j] |= 1
             else:
-                if(sum(temp)!=0):
+                if(sum(temp)!=1):
                     temp[j] &= 0
         else:
             if random.rand() < changeProb:
-                if(sum(temp)!=0):
+                if(sum(temp)!=1):
                     temp[j] &= 0
             else:
                 temp[j] |= 1    
