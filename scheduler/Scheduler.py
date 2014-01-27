@@ -21,6 +21,9 @@ class Scheduler:
 
         self.solution = self.RandomSolution()
         self.population = self.GeneratePopulation(popSize)
+        
+        '''number of trials'''
+        self.Trials = 1
 
         self.setSelectionParams()
 
@@ -65,8 +68,24 @@ class Scheduler:
 #        print(min(rating))
 #        print(t)
 
+    def Solve(self, iterations = 5000):
+        logs = []
+        best = []
+        for i in range(self.Trials):
+            solution = self.Trial(iterations)
+            if(len(best) == 0 or self.Fitness(best) > self.Fitness(solution)):
+                best = solution
+            if(len(logs) == 0):
+                logs = self.logFitness
+            else:
+                logs = [[logs[i][j] + self.logFitness[i][j] for j in range(len(logs[i]))] for i in range(len(logs))]
+        self.logFitness = [[logg/self.Trials for logg in log] for log in logs]
+        self.solution = best
+        return self.solution
+
+
     #EA alg helper functions
-    def Solve(self, iterations = 100):
+    def Trial(self, iterations = 100):
         Scheduler.MaxIterations = iterations
         '''EvAlg similiar to that from slides'''
         def EvolutionaryAlgorithm():
