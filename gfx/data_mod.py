@@ -146,8 +146,10 @@ class DataMainWindow(QtGui.QWidget):
             self.statusBar.setText('Loading problem data...')
             prob = Problem.Load()
 
+            pop_size = int(self.population_edit.displayText())
+
             self.statusBar.setText('Initializing scheduler...')
-            sched = Scheduler(20, prob)
+            sched = Scheduler(pop_size, prob)
 
             self.statusBar.setText('Solving...')
 
@@ -155,7 +157,7 @@ class DataMainWindow(QtGui.QWidget):
             test_q = int(self.iter_edit.displayText())
             cross_pr = float(self.crossp_edit.displayText())
             parent_f = float(self.parents_edit.displayText())
-            pop_size = int(self.population_edit.displayText())
+
 
             sched.SetOperators(mutationOp = mutop_operator,
                                crossingOp = xop_operator)
