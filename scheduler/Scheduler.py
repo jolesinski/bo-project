@@ -71,14 +71,16 @@ class Scheduler:
     def Solve(self, iterations = 5000):
         logs = []
         best = []
-        for i in range(self.Trials):
+        for t in range(self.Trials):
             solution = self.Trial(iterations)
             if(len(best) == 0 or self.Fitness(best) > self.Fitness(solution)):
                 best = solution
             if(len(logs) == 0):
-                logs = self.logFitness
+                logs = self.logFitness.copy()
+                self.logFitness = []
             else:
-                logs = [[logs[i][j] + self.logFitness[i][j] for j in range(len(logs[i]))] for i in range(len(logs))]
+                logs = [[logs[i][j] + self.logFitness[i][j] for j in range(len(logs[i]))] for i in range(min(len(logs), len(self.logFitness)))]
+
         self.logFitness = [[logg/self.Trials for logg in log] for log in logs]
         self.solution = best
         return self.solution
