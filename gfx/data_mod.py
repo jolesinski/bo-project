@@ -29,6 +29,7 @@ class DataMainWindow(QtGui.QWidget):
         test_label = QtGui.QLabel('Number of tests:')
         crossp_label = QtGui.QLabel('Crossover op. usage probability:')
         parents_label = QtGui.QLabel('Fraction of old population in new:')
+        population_label = QtGui.QLabel('Population size:')
 
 
         self.proc_edit = QtGui.QLineEdit()
@@ -53,6 +54,10 @@ class DataMainWindow(QtGui.QWidget):
         self.parents_edit = QtGui.QLineEdit()
         self.parents_edit.setMaximumWidth(50)
         self.parents_edit.setText('0.2')
+
+        self.population_edit = QtGui.QLineEdit()
+        self.population_edit.setMaximumWidth(50)
+        self.population_edit.setText('100')
 
 
 
@@ -98,6 +103,7 @@ class DataMainWindow(QtGui.QWidget):
         grid.addWidget( test_label, 3, 3)
         grid.addWidget( crossp_label, 5, 3)
         grid.addWidget( parents_label, 5, 2)
+        grid.addWidget( population_label, 7, 2)
         grid.addWidget( self.iter_edit, 4, 2)
         grid.addWidget( self.parents_edit, 6, 2)
         grid.addWidget( self.crossp_edit, 6, 3)
@@ -105,7 +111,8 @@ class DataMainWindow(QtGui.QWidget):
         grid.addWidget( self.mutop_combo, 2, 2)
         grid.addWidget( self.xop_combo, 2, 3)
         grid.addWidget( self.buttonpr, 5, 0)
-        grid.addWidget( self.buttonsol, 7, 2)
+        grid.addWidget( self.population_edit, 8, 2)
+        grid.addWidget( self.buttonsol, 9, 2)
 
         grid.addWidget( self.statusBar, 8, 0, 1, 4)
 
@@ -148,6 +155,7 @@ class DataMainWindow(QtGui.QWidget):
             test_q = int(self.iter_edit.displayText())
             cross_pr = float(self.crossp_edit.displayText())
             parent_f = float(self.parents_edit.displayText())
+            pop_size = int(self.population_edit.displayText())
 
             sched.SetOperators(mutationOp = mutop_operator,
                                crossingOp = xop_operator)
@@ -203,16 +211,17 @@ class DataAnalysis(QtGui.QWidget):
         path = os.path.dirname(__file__)
         path = os.path.join(os.path.dirname(path), 'config/graph_data.pickle')
         with open(path, 'rb') as file:
-            graph_data = pickle.load(file)
+            self.graph_data = pickle.load(file)
 
-        self.fitGraphDialog = graph_mod.FitGraph(graph_data)
-        self.solGraphDialog = graph_mod.SolGraph(graph_data)
-        self.opGraphDialog = graph_mod.PopulationGraph(graph_data)
+
 
         self.show()
 
 
     def generate_plots(self):
+        self.fitGraphDialog = graph_mod.FitGraph(self.graph_data)
+        self.solGraphDialog = graph_mod.SolGraph(self.graph_data)
+        self.opGraphDialog = graph_mod.PopulationGraph(self.graph_data)
         if self.cb1.checkState() == QtCore.Qt.Checked:
             self.solGraphDialog.create()
             self.solGraphDialog.show()

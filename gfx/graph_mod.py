@@ -137,6 +137,19 @@ class PopulationGraph(Graph):
         y_tick = max(1, int(0.05*y_max))
         graph2.set_yticks(range(0, y_max, y_tick))
 
+        labels = [ self.avrg_macc, self.avrg_cacc, self.avrg_munacc, self.avrg_cunacc, self.avrg_mduration, self.avrg_cduration ]
+        cntr = 0
+        centering_offset = 0.02 - width/2.
+        for tick in ticks:
+            graph.annotate(labels[cntr],
+                           xy=(tick - centering_offset, 1),
+                           textcoords='data',
+                           color='black',
+                           weight='bold',
+                           fontsize=14)
+            cntr += 1
+
+
 
         self.canvas.draw()
 
@@ -170,6 +183,8 @@ class FitGraph(Graph):
         graph.plot( self.popul_list, self.fitness_worst, '-', label='Fitness func. worst value', color='red')
 
         legend = graph.legend(loc='upper right', shadow=True)
+        bottom_lim = self.fitness_vals[-1] - 5
+        graph.set_ylim(bottom=bottom_lim)
 
         self.canvas.draw()
 
