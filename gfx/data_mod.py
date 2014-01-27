@@ -57,7 +57,7 @@ class DataMainWindow(QtGui.QWidget):
 
         self.population_edit = QtGui.QLineEdit()
         self.population_edit.setMaximumWidth(50)
-        self.population_edit.setText('100')
+        self.population_edit.setText('20')
 
 
 
@@ -83,6 +83,7 @@ class DataMainWindow(QtGui.QWidget):
         self.buttonsol.clicked.connect(self.solve_problem)
 
         self.statusBar = QtGui.QLabel('Ready')
+        self.statusBar.setMaximumWidth(50)
 
         grid = QtGui.QGridLayout()
         grid.setSpacing(5)
